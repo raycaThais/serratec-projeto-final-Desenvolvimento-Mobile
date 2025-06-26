@@ -4,8 +4,14 @@ import { Button } from "../../components/Button"
 import { Input } from "../../components/Input"
 import { styles } from "./styles";
 import { LinearGradient } from 'expo-linear-gradient';
+import { getUserItems } from "../../services/LoginApi";
 
 export const Login = () => {
+
+    const validarLogin = () => {
+        const response = getUserItems()
+        console.log(response)
+    }
 
     return(
         <View style={styles.container}>
@@ -14,7 +20,7 @@ export const Login = () => {
                 <Text style={styles.titulo}>Login</Text>
                 <Input  placeholder="email"/>
                 <Input  placeholder="password"/>
-                <Button nome={"Logar"} />
+                <Button onPress={validarLogin} nome={"Entrar"} />
                 <TouchableOpacity>
                     <Text>
                         Cadastre-se
