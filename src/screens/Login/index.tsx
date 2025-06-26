@@ -8,9 +8,13 @@ import { getUserItems } from "../../services/LoginApi";
 
 export const Login = () => {
 
-    const validarLogin = () => {
-        const response = getUserItems()
-        console.log(response)
+   const validarLogin = async () => {
+        try {
+            const response = await getUserItems();
+            console.log(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar usuários:", error);
+        }
     }
 
     return(
@@ -22,7 +26,7 @@ export const Login = () => {
                 <Input  placeholder="password"/>
                 <Button onPress={validarLogin} nome={"Entrar"} />
                 <TouchableOpacity>
-                    <Text>
+                    <Text style={styles.texto}>
                         Cadastre-se
                     </Text>
                 </TouchableOpacity> 
