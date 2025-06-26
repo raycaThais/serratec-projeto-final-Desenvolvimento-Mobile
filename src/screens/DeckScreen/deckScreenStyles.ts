@@ -1,0 +1,54 @@
+import { StyleSheet } from 'react-native';
+
+const MAX_GRID_WIDTH = 900;
+const MINI_CARD_WIDTH = 110;
+const MINI_CARD_HEIGHT = 145;
+
+export const deckScreenStyles = StyleSheet.create({
+  container: {
+    paddingVertical: 32,
+    alignItems: 'center',
+    backgroundColor: '#0a0a0a',
+    minHeight: '100%',
+  },
+  title: {
+    color: '#fff',
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 24,
+    letterSpacing: 1,
+  },
+  groupSection: {
+    width: '100%',
+    maxWidth: MAX_GRID_WIDTH,
+    alignSelf: 'center',
+    marginBottom: 32,
+  },
+  groupTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    marginLeft: 8,
+    letterSpacing: 0.5,
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    width: '100%',
+  },
+  cardWrapper: {
+    width: MINI_CARD_WIDTH,
+    height: MINI_CARD_HEIGHT,
+    margin: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalBg: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}); 
