@@ -12,11 +12,11 @@ export const Login = () => {
             <LinearGradient colors={['#F57C00', '#1976D2']} style={{ flex: 1 }}>
             <View style={styles.login}>
                 <Text style={styles.titulo}>Login</Text>
-                <Input  placeholder="email"/>
-                <Input  placeholder="password"/>
+                <Input  placeholder="email" placeholderTextColor="#E0F7FA"/>
+                <Input  placeholder="password" placeholderTextColor="#E0F7FA"/>
                 <Button nome={"Logar"} />
                 <TouchableOpacity>
-                    <Text>
+                    <Text style={styles.texto}>
                         Cadastre-se
                     </Text>
                 </TouchableOpacity> 

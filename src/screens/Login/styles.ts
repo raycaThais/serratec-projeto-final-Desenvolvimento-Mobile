@@ -11,6 +11,7 @@ login:{
     alignItems: 'center',
     justifyContent: 'center',
     
+    
 },
 titulo:{
     color: '#000',
@@ -20,5 +21,11 @@ titulo:{
     textAlign: 'center',
     marginBottom: 20
 },
+texto: {
+  // fontSize: 30,
+  fontWeight: 'bold',
+  textDecorationLine: 'underline',
+  
+}
 
 })
