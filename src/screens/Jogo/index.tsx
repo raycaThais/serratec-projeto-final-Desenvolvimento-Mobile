@@ -23,11 +23,11 @@ export const Jogo = () => {
     }
 
     const pegarPrimeiraCartaJogador = (baralhoJogador: OnePieceCharacter[]) => {
-       setCartaAtualJogador(baralhoJogador.shift)
+        setCartaAtualJogador(baralhoJogador.shift)
     }
 
     const pegarPrimeiraCartaBot = (baralhoBot: OnePieceCharacter[]) => {
-       setCartaAtualBot(baralhoBot.shift)
+        setCartaAtualBot(baralhoBot.shift)
     }
 
 
@@ -40,7 +40,7 @@ export const Jogo = () => {
             resistencia: cartaAtual.resistencia || 0,
             inteligencia: cartaAtual.inteligencia || 0,
             haki: cartaAtual.haki || 0,
-            recompensa: cartaAtual.recompensa ||0
+            recompensa: cartaAtual.recompensa || 0
         }
 
         let melhorAtributo = ""
@@ -49,11 +49,11 @@ export const Jogo = () => {
         const at = Object.entries(atributos)
 
         at.forEach(([atributo, valor]) => {
-            if (valor > maiorValor  ){
+            if (valor > maiorValor) {
                 maiorValor = valor
                 melhorAtributo = atributo
             }
-            
+
         })
         return melhorAtributo
     }
