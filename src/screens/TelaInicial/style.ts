@@ -1,17 +1,40 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f6d'
-    },  
-      image: { 
-      width: 350,
-      height: 350,
-      alignItems: 'center',
-      justifyContent: 'center',
-    }
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 350,
+    height: 350,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btComojogar: {
+    left: 190,
+    marginTop: 10,
+  },
+  botoes: {
+    alignItems: 'center',
+    gap: 10,
+    top: 1,
+  },
+  duvidas: {
+      shadowColor: "#000",
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  gradient:{ 
+    padding: 10,
+    borderRadius: 5,
+    top: 1,
+  },
 });
 

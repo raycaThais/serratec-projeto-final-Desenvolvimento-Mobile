@@ -3,19 +3,34 @@ import { Button } from "../../components/Button"
 import { useState } from "react"
 import { RegrasModal } from "../../components/Modal/RegrasModal"
 import { styles } from "./style"
+import { LinearGradient } from "expo-linear-gradient"
 
 export const TelaInicial = () => {
   const [IsRegrasModalOpen, setIsRegrasModalOpen] = useState<boolean>(false);
 
   return (
     <>
-     
-      <ImageBackground style={styles.container} source={require("../../../assets/teste.jpg")}>
-        <Image style={styles.image} source={require("../../../assets/LogoSemFundo.png")}/>
-        
-        <Button nome={"Start"} />
-        <Button nome={"❓"} onPress={() => setIsRegrasModalOpen(true)} />
 
+      <ImageBackground style={styles.container} source={require("../../../assets/teste.jpg")}>
+
+        <Image style={styles.image} source={require("../../../assets/LogoSemFundo.png")} />
+        <View style={styles.btComojogar}>
+          <TouchableOpacity style={styles.duvidas} onPress={() => setIsRegrasModalOpen(true)}>
+            <LinearGradient
+              colors={["#f9c004", "#b46125"]}
+              style={styles.gradient}>
+              <Text>❓</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+        </View>
+
+        <View style={styles.botoes}>
+
+          <Button nome={"Start"} />
+          <Button nome={"Ver deck completo"} />
+
+        </View>
         <RegrasModal setIsRegrasModalOpen={setIsRegrasModalOpen}
           IsRegrasModalOpen={IsRegrasModalOpen}
           children={
@@ -42,11 +57,7 @@ export const TelaInicial = () => {
                 Os jogadores que ficarem sem cartas são eliminados.
                 O último jogador com cartas é o vencedor. </Text>
             </View>} />
-
-
-        <Button nome={"Ver deck completo"} />
       </ImageBackground>
     </>
   )
-
 }
