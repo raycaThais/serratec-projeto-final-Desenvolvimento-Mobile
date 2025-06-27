@@ -6,5 +6,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f6d'
+    },  
+      image: { 
+      width: 350,
+      height: 350,
+      alignItems: 'center',
+      justifyContent: 'center',
     }
 });
+
