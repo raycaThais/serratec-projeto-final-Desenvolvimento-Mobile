@@ -87,10 +87,14 @@ export const Jogo = () => {
         if (atributoBot > atributoJogador) {
             //bot vence
             setResultado("Derrota")
-            novoBaralhoBot.push(...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!)
-            setCartasBot(novoBaralhoBot)
-            setVezJogador(false) //bot joga novamente se ganhar??
-            setPilhaCartasEmpate([])
+            setTimeout(() => {
+                novoBaralhoBot.push(...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!)
+                setCartasBot(novoBaralhoBot)
+                setVezJogador(false)
+                setPilhaCartasEmpate([])
+                setResultado("")
+            }, 2000)
+
         } else if (atributoJogador > atributoBot) {
             //jogador vence
             setResultado("Vitória")
@@ -103,13 +107,13 @@ export const Jogo = () => {
             }, 2000)
 
         } else {
-            // empate (tem que repetir a jogada) -> mesma pessoa que escolheu o atributo, escolhe dnv
-            //exibir mensagem de empate 
-            const pilhaCartas: OnePieceCharacter[] = [...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!]
-            setPilhaCartasEmpate(pilhaCartas)
-            // colocar um setTimeout para a mensagem ser exibida por um tempo antes de repetir a partida?
             setResultado("Empate")
-            repetirPartida()
+            setTimeout(() => {
+                const pilhaCartas: OnePieceCharacter[] = [...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!]
+                setPilhaCartasEmpate(pilhaCartas)
+                repetirPartida()
+            }, 2000)
+
         }
 
     }
