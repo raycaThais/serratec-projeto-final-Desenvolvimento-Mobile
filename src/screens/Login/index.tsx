@@ -1,37 +1,44 @@
-import { TouchableOpacity, View, Text } from "react-native"
+import { TouchableOpacity, View, Text, Image, ImageBackground } from "react-native"
 import React from "react"
 import { Button } from "../../components/Button"
 import { Input } from "../../components/Input"
 import { styles } from "./styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import { getUserItems } from "../../services/LoginApi";
+import logo from '../../../assets/LogoSemFundo.png'
+import fundo from '../../../assets/apenasFundo.png'
 
 export const Login = () => {
 
    const validarLogin = async () => {
-        try {
-            const response = await getUserItems();
-            console.log(response.data);
-        } catch (error) {
-            console.error("Erro ao buscar usuários:", error);
-        }
-    }
+      try {
+          const response = await getUserItems();
+          console.log(response.data);
+      } catch (error) {
+          console.error("Erro ao buscar usuários:", error);
+      }
+  }
 
     return(
-        <View style={styles.container}>
-            <LinearGradient colors={['#F57C00', '#1976D2']} style={{ flex: 1 }}>
-            <View style={styles.login}>
-                <Text style={styles.titulo}>Login</Text>
-                <Input  placeholder="email"/>
-                <Input  placeholder="password"/>
-                <Button onPress={validarLogin} nome={"Entrar"} />
-                <TouchableOpacity>
-                    <Text style={styles.texto}>
-                        Cadastre-se
-                    </Text>
-                </TouchableOpacity> 
-            </View>
-            </LinearGradient>
+      <>
+      <ImageBackground source={fundo} style={styles.fundoImg}>
+       {/* <LinearGradient colors={['#1976D2', '#1976D2']} style={{paddingBottom: 117, marginTop: 33, }}> */}
+        <Image source={logo} style={styles.logo} />
+        <View style={styles.container}>          
+          <View style={styles.login}>
+              <Text style={styles.titulo}>Login</Text>
+              <Input  placeholder="email" placeholderTextColor="#000"/>
+                <Input  placeholder="password" placeholderTextColor="#000"/>
+              <Button onPress={validarLogin} nome={"Entrar"} />
+              <TouchableOpacity>
+                  <Text style={styles.texto}>
+                      Cadastre-se
+                  </Text>
+              </TouchableOpacity> 
+          </View>           
         </View>
+      {/* </LinearGradient> */}
+      </ImageBackground>
+      </>
     )
 }
