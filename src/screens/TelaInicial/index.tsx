@@ -11,13 +11,13 @@ export const TelaInicial = () => {
   return (
     <>
 
-      <ImageBackground style={styles.container} source={require("../../../assets/teste.jpg")}>
+      <ImageBackground blurRadius={1} style={styles.container} source={require("../../../assets/apenasFundo.png")}>
 
         <Image style={styles.image} source={require("../../../assets/LogoSemFundo.png")} />
         <View style={styles.btComojogar}>
           <TouchableOpacity style={styles.duvidas} onPress={() => setIsRegrasModalOpen(true)}>
             <LinearGradient
-              colors={["#fbc103", "#ef7208"]}
+              colors={["#facc15", "#ef7208"]}
               style={styles.gradient}>
               <Text>❓</Text>
             </LinearGradient>

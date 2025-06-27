@@ -9,12 +9,12 @@ export const styles = StyleSheet.create({
   image: {
     width: 350,
     height: 350,
-    alignItems: 'center',
     justifyContent: 'center',
   },
   btComojogar: {
-    left: 190,
-    marginTop: 10,
+    position: 'absolute',
+    right: 20,
+    marginTop: 90,
   },
   botoes: {
     alignItems: 'center',
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     top: 1,
   },
   duvidas: {
-      shadowColor: "#000",
+    shadowColor: "#000",
     shadowOffset: {
       width: 3,
       height: 2,
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  gradient:{ 
+  gradient: {
     padding: 10,
     borderRadius: 5,
     top: 1,
