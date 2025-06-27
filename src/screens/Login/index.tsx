@@ -1,11 +1,12 @@
-import { TouchableOpacity, View, Text, Image } from "react-native"
+import { TouchableOpacity, View, Text, Image, ImageBackground } from "react-native"
 import React from "react"
 import { Button } from "../../components/Button"
 import { Input } from "../../components/Input"
 import { styles } from "./styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import { getUserItems } from "../../services/LoginApi";
-import logo from '../../../assets/Logo.png'
+import logo from '../../../assets/LogoSemFundo.png'
+import fundo from '../../../assets/apenasFundo.png'
 
 export const Login = () => {
 
@@ -19,7 +20,9 @@ export const Login = () => {
   }
 
     return(
-      <LinearGradient colors={['#1976D2', '#1976D2']} style={{paddingBottom: 117, marginTop: 33, }}>
+      <>
+      <ImageBackground source={fundo} style={styles.fundoImg}>
+       {/* <LinearGradient colors={['#1976D2', '#1976D2']} style={{paddingBottom: 117, marginTop: 33, }}> */}
         <Image source={logo} style={styles.logo} />
         <View style={styles.container}>          
           <View style={styles.login}>
@@ -34,6 +37,8 @@ export const Login = () => {
               </TouchableOpacity> 
           </View>           
         </View>
-      </LinearGradient>
+      {/* </LinearGradient> */}
+      </ImageBackground>
+      </>
     )
 }

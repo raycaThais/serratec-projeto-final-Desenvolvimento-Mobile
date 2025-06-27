@@ -1,11 +1,17 @@
 import { StyleSheet, StatusBar } from "react-native";
 
 export const styles = StyleSheet.create({
+fundoImg:{
+  width: '100%',
+  height: '100%',
+  //paddingBottom: 45, //margin nos botões de navegação do celular 
+
+},
 
 container:{   
   paddingHorizontal: 24,
   justifyContent: "center",
-  paddingBottom: 45, 
+  
    
 },
 logo: { 
@@ -18,7 +24,7 @@ logo: {
 },
 login:{
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 16,
     padding: 24,
     shadowColor: '#000',
@@ -31,18 +37,18 @@ login:{
        
 },
 titulo:{
-    color: '#fff',
+    color: '#000',
     fontSize: 36,
     fontWeight: 'bold',    
     textAlign: 'center',
     marginBottom: 32
 },
 texto: {  
-  fontWeight: 'bold',
+  fontWeight: 400,
   textDecorationLine: 'underline',
   marginTop: 24,
-  fontSize: 16,
-  color: '#fff'
+  fontSize: 20,
+  color: '#000'
   
 }
 
