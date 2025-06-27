@@ -5,7 +5,7 @@ import { Input } from "../../components/Input"
 import { styles } from "./styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import { getUserItems } from "../../services/LoginApi";
-import logo from '../../assets/imagens/logo.png'
+import logo from '../../../assets/Logo.png'
 
 export const Login = () => {
 
