@@ -87,17 +87,21 @@ export const Jogo = () => {
         if (atributoBot > atributoJogador) {
             //bot vence
             setResultado("Derrota")
-            novoBaralhoBot.push(...pilhaCartasEmpate!, cartaAtualJogador!,cartaAtualBot! )
+            novoBaralhoBot.push(...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!)
             setCartasBot(novoBaralhoBot)
             setVezJogador(false) //bot joga novamente se ganhar??
             setPilhaCartasEmpate([])
         } else if (atributoJogador > atributoBot) {
             //jogador vence
             setResultado("Vitória")
-             novoBaralhoJogador.push(...pilhaCartasEmpate!, cartaAtualJogador!,cartaAtualBot! )
-            setCartasJogador(novoBaralhoJogador)
-            setVezJogador(true)
-            setPilhaCartasEmpate([])
+            setTimeout(() => {
+                novoBaralhoJogador.push(...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!)
+                setCartasJogador(novoBaralhoJogador)
+                setVezJogador(true)
+                setPilhaCartasEmpate([])
+                setResultado("")
+            }, 2000)
+
         } else {
             // empate (tem que repetir a jogada) -> mesma pessoa que escolheu o atributo, escolhe dnv
             //exibir mensagem de empate 
