@@ -17,7 +17,7 @@ export const TelaInicial = () => {
         <View style={styles.btComojogar}>
           <TouchableOpacity style={styles.duvidas} onPress={() => setIsRegrasModalOpen(true)}>
             <LinearGradient
-              colors={["#f9c004", "#b46125"]}
+              colors={["#fbc103", "#ef7208"]}
               style={styles.gradient}>
               <Text>❓</Text>
             </LinearGradient>
@@ -28,7 +28,7 @@ export const TelaInicial = () => {
         <View style={styles.botoes}>
 
           <Button nome={"Start"} />
-          <Button nome={"Ver deck completo"} />
+          <Button nome={"Ver deck"} />
 
         </View>
         <RegrasModal setIsRegrasModalOpen={setIsRegrasModalOpen}
