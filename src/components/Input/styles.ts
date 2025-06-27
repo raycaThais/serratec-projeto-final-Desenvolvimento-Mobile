@@ -6,10 +6,9 @@ input: {
   width: '80%',
   borderColor: '#212121',
   borderWidth: 1,
-  borderRadius: 5,
-  paddingHorizontal: 15,
+  borderRadius: 20,
+  paddingHorizontal: 12,
   marginBottom: 10,
-  // backgroundColor: '#E0F7FA',
-  // color: '#C6FF00',
+  backgroundColor: '#E0F7FA',  
 },
 })
