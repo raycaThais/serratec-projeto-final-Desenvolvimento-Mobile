@@ -1,0 +1,1 @@
+export { MiniCharacterCard as default } from './MiniCharacterCard'; 

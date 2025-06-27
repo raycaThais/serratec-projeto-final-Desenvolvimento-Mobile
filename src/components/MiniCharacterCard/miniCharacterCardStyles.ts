@@ -3,9 +3,7 @@ import { StyleSheet } from 'react-native';
 export const miniCharacterCardStyles = StyleSheet.create({
   cardShadow: {
     borderRadius: 18,
-    shadowColor: '#fff',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 8,
     alignItems: 'center',
@@ -13,6 +11,7 @@ export const miniCharacterCardStyles = StyleSheet.create({
     marginVertical: 4,
     borderWidth: 8,
     borderColor: '#fff',
+    backgroundColor: 'transparent',
   },
   cardContainer: {
     borderRadius: 18,
@@ -69,5 +68,6 @@ export const miniCharacterCardStyles = StyleSheet.create({
     width: 110,
     height: 145,
     borderRadius: 18,
+    backgroundColor: 'transparent',
   },
 }); 
