@@ -4,16 +4,19 @@ import { useState } from "react"
 import { RegrasModal } from "../../components/Modal/RegrasModal"
 import { styles } from "./style"
 import { LinearGradient } from "expo-linear-gradient"
+import FloatingAnimation from "../../components/FloatingAnimation" // Ajuste o caminho conforme sua estrutura
 
 export const TelaInicial = () => {
   const [IsRegrasModalOpen, setIsRegrasModalOpen] = useState<boolean>(false);
 
   return (
     <>
-
       <ImageBackground blurRadius={1} style={styles.container} source={require("../../../assets/apenasFundo.png")}>
 
-        <Image style={styles.image} source={require("../../../assets/LogoSemFundo.png")} />
+        <FloatingAnimation duration={4000} distance={5} rotationAmount={3}>
+          <Image style={styles.image} source={require("../../../assets/LogoSemFundo.png")} />
+        </FloatingAnimation>
+
         <View style={styles.btComojogar}>
           <TouchableOpacity style={styles.duvidas} onPress={() => setIsRegrasModalOpen(true)}>
             <LinearGradient
@@ -22,16 +25,15 @@ export const TelaInicial = () => {
               <Text>❓</Text>
             </LinearGradient>
           </TouchableOpacity>
-
         </View>
 
         <View style={styles.botoes}>
-
           <Button nome={"Start"} />
           <Button nome={"Ver deck"} />
-
         </View>
-        <RegrasModal setIsRegrasModalOpen={setIsRegrasModalOpen}
+
+        <RegrasModal 
+          setIsRegrasModalOpen={setIsRegrasModalOpen}
           IsRegrasModalOpen={IsRegrasModalOpen}
           children={
             <View>
@@ -51,12 +53,14 @@ export const TelaInicial = () => {
                 O vencedor da rodada escolhe o próximo atributo.
                 <Text>⭐ Carta Super Trunfo:</Text>
                 Se alguém jogar a carta "Super Trunfo", ela irá vence automaticamente.
-                {/* carta fred será supertrunfo ou algo tipo hipersupertrunfo? */}
                 As regras do Super Trunfo podem variar de um baralho para outro.
                 <Text>🔚 Fim do Jogo:</Text>
                 Os jogadores que ficarem sem cartas são eliminados.
-                O último jogador com cartas é o vencedor. </Text>
-            </View>} />
+                O último jogador com cartas é o vencedor. 
+              </Text>
+            </View>
+          } 
+        />
       </ImageBackground>
     </>
   )
