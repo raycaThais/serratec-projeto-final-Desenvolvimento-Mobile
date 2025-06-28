@@ -41,22 +41,25 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
     marginBottom: 16,
-
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)', // opcional: escurece o fundo
   },
   containermodal: {
-    backgroundColor: 'orange',
-    borderRadius: 50,
-    justifyContent: 'flex-start',
-    width: '90%',
-    height: 500,
-    padding: 20,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
+  // backgroundColor: 'orange', // Remova ou comente esta linha
+  borderRadius: 30,
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '90%',
+  minHeight: 200,
+  padding: 20,
+  overflow: 'hidden', // Adicione esta linha
+},
   modaltext: {
     fontSize: 14,
     textAlign: 'center'
   },
-
 });
-
