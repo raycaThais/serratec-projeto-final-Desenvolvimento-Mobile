@@ -28,6 +28,8 @@ export const Login = () => {
 
       if (usuarioEncontrado) {
         Alert.alert('Login válido', `Bem vindo, ${usuarioEncontrado.nome}!`) //mudar para o assincronous storage
+        setEmail("");
+        setSenha("");
       }else {
         Alert.alert('Login inválido', 'Usuário ou senha incorretos.');
         setSenha("")
