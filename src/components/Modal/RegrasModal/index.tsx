@@ -10,7 +10,7 @@ interface RegrasModalProps {
 
 export const RegrasModal = ({ IsRegrasModalOpen, setIsRegrasModalOpen, children }: RegrasModalProps) => {
     return (
-        <View style={styles.modal}>
+        <View>
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -19,7 +19,9 @@ export const RegrasModal = ({ IsRegrasModalOpen, setIsRegrasModalOpen, children 
                     setIsRegrasModalOpen(false);
                 }}
             >
-                {children}
+                <View style={styles.modal}>
+                    {children}
+                </View>
             </Modal>
 
         </View>
