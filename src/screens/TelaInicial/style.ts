@@ -7,8 +7,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    width: 350,
-    height: 350,
+    width: 300,
+    height: 300,
     justifyContent: 'center',
   },
   btComojogar: {
@@ -36,5 +36,27 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     top: 1,
   },
+  titulo: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 16,
+    marginBottom: 16,
+
+  },
+  containermodal: {
+    backgroundColor: 'orange',
+    borderRadius: 50,
+    justifyContent: 'flex-start',
+    width: '90%',
+    height: 500,
+    padding: 20,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  modaltext: {
+    fontSize: 14,
+    textAlign: 'center'
+  },
+
 });
 
