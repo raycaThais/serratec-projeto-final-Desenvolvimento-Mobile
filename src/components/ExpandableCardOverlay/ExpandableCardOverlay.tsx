@@ -12,7 +12,7 @@ type Card = OnePieceCharacter & { name: string; imageUrl?: string };
 interface ExpandableCardOverlayProps {
   visible: boolean;
   card: Card;
-  onSelectAttribute?: (attribute: Attribute) => void;
+  onSelectAttribute?: (attribute: string) => void;
   onConfirm?: () => void;
   isConfirmationOnly?: boolean;
   onClose: () => void;

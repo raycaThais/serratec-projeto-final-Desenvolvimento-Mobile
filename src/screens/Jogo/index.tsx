@@ -1,162 +1,102 @@
-import React, { useEffect, useState } from "react"
-import { OnePieceCharacter, onePieceCharacters } from "../../data/OnePieceCharacters"
+import { useEffect, useState, useCallback } from "react";
+import { OnePieceCharacter, onePieceCharacters } from "../../data/OnePieceCharacters";
 
+// A função agora se chama `useGameLogic` (convenção de hook)
+export const useGameLogic = () => {
+    const [maoJogador, setMaoJogador] = useState<OnePieceCharacter[]>([]);
+    const [maoBot, setMaoBot] = useState<OnePieceCharacter[]>([]);
+    const [turno, setTurno] = useState<'jogador' | 'bot'>('jogador');
+    const [resultado, setResultado] = useState<string>("");
+    const [pilhaEmpate, setPilhaEmpate] = useState<OnePieceCharacter[]>([]);
+    const [vencedorRodada, setVencedorRodada] = useState<'jogador' | 'bot' | 'empate' | null>(null);
 
-export const Jogo = () => {
-    //vou começar colocando a lógica aqui, mas talvez mude para outro arquivo
+    // Função para iniciar/reiniciar a partida
+    const iniciarPartida = useCallback(() => {
+        const baralhoEmbaralhado = [...onePieceCharacters].sort(() => Math.random() - 0.5);
+        const metade = Math.ceil(baralhoEmbaralhado.length / 2);
 
-    const [baralho, setBaralho] = useState<OnePieceCharacter[]>(onePieceCharacters)
-    const [vezJogador, setVezJogador] = useState<boolean>(true)
-    const [cartaAtualJogador, setCartaAtualJogador] = useState<OnePieceCharacter>()
-    const [cartaAtualBot, setCartaAtualBot] = useState<OnePieceCharacter>()
-    const [cartasJogador, setCartasJogador] = useState<OnePieceCharacter[]>([])
-    const [cartasBot, setCartasBot] = useState<OnePieceCharacter[]>([])
-    const [resultado, setResultado] = useState<string>("") // usar para exibir mensagem na tela e contar vitorias (se formos fazer um contador)
-    const [pilhaCartasEmpate, setPilhaCartasEmpate] = useState<OnePieceCharacter[]>()
+        setMaoJogador(baralhoEmbaralhado.slice(0, metade));
+        setMaoBot(baralhoEmbaralhado.slice(metade));
+        setTurno('jogador');
+        setPilhaEmpate([]);
+        setResultado("Sua vez de jogar!");
+    }, []);
 
-
-    const dividirCartas = (baralho: OnePieceCharacter[]) => {
-        const cartasJogador = baralho.slice(0, 5)
-        setCartasJogador(cartasJogador)
-        const cartasBot = baralho.slice(5, 10)
-        setCartasBot(cartasBot)
-    }
-
-    const pegarPrimeiraCartaJogador = (baralhoJogador: OnePieceCharacter[]) => {
-        const novaLista = [...cartasJogador]
-        const carta = novaLista.shift()
-
-        setCartasJogador(novaLista)
-        setCartaAtualJogador(carta)
-
-    }
-
-    const pegarPrimeiraCartaBot = (baralhoBot: OnePieceCharacter[]) => {
-        const novaLista = [...cartasBot]
-        const carta = novaLista.shift()
-
-        setCartasBot(novaLista)
-        setCartaAtualBot(carta)
-    }
-
-
-    //método para o bot usar
-    const escolherMelhorAtributo = (cartaAtual: OnePieceCharacter) => {
-
+    const escolherMelhorAtributo = (carta: OnePieceCharacter) => {
         const atributos = {
-            forca: cartaAtual.forca || 0,
-            velocidade: cartaAtual.velocidade || 0,
-            resistencia: cartaAtual.resistencia || 0,
-            inteligencia: cartaAtual.inteligencia || 0,
-            haki: cartaAtual.haki || 0,
-            recompensa: cartaAtual.recompensa || 0
-        }
+            forca: carta.forca || 0,
+            velocidade: carta.velocidade || 0,
+            resistencia: carta.resistencia || 0,
+            inteligencia: carta.inteligencia || 0,
+            haki: carta.haki || 0,
+            recompensa: carta.recompensa || 0
+        };
+        return Object.keys(atributos).reduce((a, b) => atributos[a as keyof typeof atributos] > atributos[b as keyof typeof atributos] ? a : b) as keyof typeof atributos;
+    };
 
-        let melhorAtributo = ""
-        let maiorValor = -1
+    // Função principal que processa a rodada
+    const jogarRodada = useCallback((atributo: keyof Omit<OnePieceCharacter, 'malId' | 'group'>) => {
+        if (maoJogador.length === 0 || maoBot.length === 0) return;
 
-        const at = Object.entries(atributos)
+        const cartaJogador = maoJogador[0];
+        const cartaBot = maoBot[0];
 
-        at.forEach(([atributo, valor]) => {
-            if (valor > maiorValor) {
-                maiorValor = valor
-                melhorAtributo = atributo
-            }
+        const valorJogador = cartaJogador[atributo] || 0;
+        const valorBot = cartaBot[atributo] || 0;
 
-        })
-        return melhorAtributo
-    }
+        const cartasDaRodada = [cartaJogador, cartaBot, ...pilhaEmpate];
 
-    const repetirPartida = () => {
-        if (vezJogador) {
-            pegarPrimeiraCartaJogador(baralho) //exibe a carta e o jogador escolhe?
+        // Remove as cartas de cima das mãos
+        const novaMaoJogador = maoJogador.slice(1);
+        const novaMaoBot = maoBot.slice(1);
 
-            //jogador pega proxima carta e escolhe outro atributo
-            //as quatro ou mais cartas tem que ir para o baralho do vencedor
-        }
-    }
-
-    const compararAtributos = (atributo: keyof OnePieceCharacter) => {
-
-        const atributoBot = cartaAtualBot ? cartaAtualBot[atributo]! : 0;
-        const atributoJogador = cartaAtualJogador ? cartaAtualJogador[atributo]! : 0
-
-        let novoBaralhoJogador = [...cartasJogador]
-        let novoBaralhoBot = [...cartasBot]
-
-        if (atributoBot > atributoJogador) {
-            //bot vence
-            setResultado("Derrota")
-            novoBaralhoBot.push(...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!)
-            setCartasBot(novoBaralhoBot)
-            setVezJogador(false) //bot joga novamente se ganhar??
-            setPilhaCartasEmpate([])
-        } else if (atributoJogador > atributoBot) {
-            //jogador vence
-            setResultado("Vitória")
-            novoBaralhoJogador.push(...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!)
-            setCartasJogador(novoBaralhoJogador)
-            setVezJogador(true)
-            setPilhaCartasEmpate([])
+        if (valorJogador > valorBot) {
+            setMaoJogador([...novaMaoJogador, ...cartasDaRodada]);
+            setMaoBot(novaMaoBot);
+            setResultado("Você ganhou a rodada!");
+            setTurno('jogador');
+            setVencedorRodada('jogador');
+            setPilhaEmpate([]);
+        } else if (valorBot > valorJogador) {
+            setMaoBot([...novaMaoBot, ...cartasDaRodada]);
+            setMaoJogador(novaMaoJogador);
+            setResultado("O Bot ganhou a rodada!");
+            setTurno('bot');
+            setVencedorRodada('bot');
+            setPilhaEmpate([]);
         } else {
-            // empate (tem que repetir a jogada) -> mesma pessoa que escolheu o atributo, escolhe dnv
-            //exibir mensagem de empate 
-            const pilhaCartas: OnePieceCharacter[] = [...pilhaCartasEmpate!, cartaAtualJogador!, cartaAtualBot!]
-            setPilhaCartasEmpate(pilhaCartas)
-            // colocar um setTimeout para a mensagem ser exibida por um tempo antes de repetir a partida?
-            setResultado("Empate")
-            repetirPartida()
+            setPilhaEmpate(cartasDaRodada);
+            setMaoJogador(novaMaoJogador);
+            setMaoBot(novaMaoBot);
+            setResultado("Empate! As cartas foram para a pilha.");
+            // O turno não muda em caso de empate
+            setVencedorRodada('empate');
         }
+    }, [maoJogador, maoBot, pilhaEmpate]);
 
-    }
-    // método para usar nos atributos
-    const escolherAtributoJogador = (atributo: keyof OnePieceCharacter) => {
-        compararAtributos(atributo)
-    }
-
-    const realizarJogadaBot = () => {
-        const atributoEscolhidoBot = escolherMelhorAtributo(cartaAtualBot!) as keyof OnePieceCharacter
-
-        compararAtributos(atributoEscolhidoBot)
-
-    }
-
-
+    // Efeito para a jogada automática do BOT
     useEffect(() => {
-        if (cartasJogador.length === 0 || cartasBot.length === 0) {
-            setResultado(cartasBot.length != 0 ? "Bot venceu!" : "Você venceu!")
-            return
+        if (turno === 'bot' && maoBot.length > 0) {
+            const timeoutId = setTimeout(() => {
+                const cartaDoBot = maoBot[0];
+                const atributoEscolhido = escolherMelhorAtributo(cartaDoBot);
+                jogarRodada(atributoEscolhido);
+            }, 2000); // Espera 2 segundos para o bot jogar
+            return () => clearTimeout(timeoutId);
         }
-        if (vezJogador) {
-            pegarPrimeiraCartaJogador(baralho) //tem que exibir essa carta aqui para o jogador escolher um atributo
+    }, [turno, maoBot, jogarRodada]);
 
-        } else {
-            pegarPrimeiraCartaBot(baralho)
-
-            setTimeout(() => {
-                realizarJogadaBot()
-            }, 800)
-
-        }
-    }, [vezJogador])
-
-    // método para chamar no botão
-    const iniciarPartida = () => {
-        const baralhoEmbaralhado = [...baralho].sort(() => Math.random() - 0.5)
-        setBaralho(baralhoEmbaralhado)
-        dividirCartas(baralhoEmbaralhado)
-
-        setVezJogador(true) // vai sempre começar sendo a vez do jogador assim
-
-    }
-
-
-    //falta o método de comparação dos atributos escolhidos e indicar o vencedor da rodada(completar)
-    //falta fazer useEffect para o jogada do bot
-    //falta todo o fluxo da partida (que chama os métodos feitos)
-
-
-    return (<></>)
-
-
-}
+    // Retorna todos os estados e funções que a UI vai precisar
+    return {
+        maoJogador,
+        maoBot,
+        turno,
+        resultado,
+        pilhaEmpate,
+        vencedorRodada,
+        cartaAtualJogador: maoJogador.length > 0 ? maoJogador[0] : null,
+        cartaAtualBot: maoBot.length > 0 ? maoBot[0] : null,
+        iniciarPartida,
+        jogarRodada,
+    };
+};
