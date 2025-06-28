@@ -4,41 +4,60 @@ import {
   OnePieceCharacter,
 } from "../data/OnePieceCharacters";
 
+// Define o tipo 'Atributo' para garantir que apenas chaves válidas de um personagem sejam usadas.
+// Omite 'malId' e 'group'.
 export type Atributo = keyof Omit<OnePieceCharacter, "malId" | "group">;
+
+// Pontuação necessária para vencer a partida.
 const PONTOS_PARA_VENCER = 5;
 
-// ✅ Vamos guardar o vencedor para usar na próxima rodada
+// Variável externa ao hook para armazenar o vencedor da última rodada.
+// No 'Jogo.tsx' original, essa lógica era gerenciada pelo estado 'vezJogador' e pela passagem de cartas.
 let vencedorDaUltimaRodada: "jogador" | "bot" | "empate" = "jogador";
 
+/**
+ * Hook customizado que encapsula toda a lógica do jogo de Super Trunfo.
+ * Ele gerencia o estado do jogo (deck, placar, turno) e expõe funções para interagir com ele.
+ * @param characterData - Um objeto com dados dos personagens (nome, imagem) vindos de uma API externa.
+ */
 export const useGameLogic = (
   characterData: Record<number, { name: string; imageUrl?: string }> = {}
 ) => {
-  const [deck, setDeck] = useState<OnePieceCharacter[]>([]);
+  // --- ESTADOS DO JOGO ---
+  // Estes estados controlam o fluxo e os dados do jogo. No 'Jogo.tsx' original,
+  // tínhamos estados separados para 'cartasJogador' e 'cartasBot'.
+  // O modelo atual é mais simples: um único deck e um placar de pontos.
+
+  const [deck, setDeck] = useState<OnePieceCharacter[]>([]); // Armazena o baralho principal.
   const [cartaAtualJogador, setCartaAtualJogador] =
-    useState<OnePieceCharacter | null>(null);
+    useState<OnePieceCharacter | null>(null); // A carta visível do jogador.
   const [cartaAtualBot, setCartaAtualBot] = useState<OnePieceCharacter | null>(
     null
-  );
-  const [turno, setTurno] = useState<"jogador" | "bot">("jogador");
-  const [placarJogador, setPlacarJogador] = useState(0);
-  const [placarBot, setPlacarBot] = useState(0);
-  const [resultado, setResultado] = useState("");
+  ); // A carta visível do bot.
+  const [turno, setTurno] = useState<"jogador" | "bot">("jogador"); // Controla de quem é a vez de jogar.
+  const [placarJogador, setPlacarJogador] = useState(0); // Pontuação do jogador.
+  const [placarBot, setPlacarBot] = useState(0); // Pontuação do bot.
+  const [resultado, setResultado] = useState(""); // Mensagem de status exibida na tela.
   const [vencedorRodada, setVencedorRodada] = useState<
     "jogador" | "bot" | "empate" | null
-  >(null);
-  const [jogoFinalizado, setJogoFinalizado] = useState(false);
+  >(null); // Controla a fase de resultado da rodada e a exibição do botão "Próxima Rodada".
+  const [jogoFinalizado, setJogoFinalizado] = useState(false); // Indica se a partida acabou.
   const [atributoDisputado, setAtributoDisputado] = useState<Atributo | null>(
     null
-  );
+  ); // Armazena qual atributo foi escolhido para a comparação na rodada.
 
+  /**
+   * Reseta e inicia uma nova partida.
+   * Equivalente ao 'iniciarPartida' e 'dividirCartas' do 'Jogo.tsx'.
+   * A lógica foi simplificada: em vez de dividir o baralho em duas mãos,
+   * ele embaralha e tira as duas primeiras cartas, uma para cada jogador.
+   */
   const iniciarPartida = useCallback(() => {
     const baralhoEmbaralhado = [...onePieceCharacters].sort(
       () => Math.random() - 0.5
     );
-    const c1 = baralhoEmbaralhado.pop()!;
-    const c2 = baralhoEmbaralhado.pop()!;
-    setCartaAtualJogador(c1);
-    setCartaAtualBot(c2);
+    setCartaAtualJogador(baralhoEmbaralhado.pop()!);
+    setCartaAtualBot(baralhoEmbaralhado.pop()!);
     setDeck(baralhoEmbaralhado);
     setPlacarJogador(0);
     setPlacarBot(0);
@@ -49,9 +68,13 @@ export const useGameLogic = (
     setAtributoDisputado(null);
   }, []);
 
-  // ✅ NOVA FUNÇÃO: Chamada pelo botão para avançar o jogo
+  /**
+   * Função chamada pelo botão "Próxima Rodada" na interface.
+   * Esta função é uma das principais melhorias em relação ao 'Jogo.tsx', que avançava
+   * automaticamente com 'setTimeout'. Dar o controle ao jogador melhora a experiência.
+   */
   const avancarParaProximaRodada = useCallback(() => {
-    // Atualiza o placar
+    // 1. Atualiza o placar com base no resultado da rodada que acabou de terminar.
     const novoPlacarJogador =
       placarJogador + (vencedorDaUltimaRodada === "jogador" ? 1 : 0);
     const novoPlacarBot =
@@ -59,7 +82,7 @@ export const useGameLogic = (
     setPlacarJogador(novoPlacarJogador);
     setPlacarBot(novoPlacarBot);
 
-    // Verifica se o jogo terminou
+    // 2. Verifica se o jogo terminou por pontuação ou por falta de cartas.
     if (
       novoPlacarJogador >= PONTOS_PARA_VENCER ||
       novoPlacarBot >= PONTOS_PARA_VENCER ||
@@ -69,25 +92,32 @@ export const useGameLogic = (
       return;
     }
 
-    // Define o próximo turno
+    // 3. Define quem joga na próxima rodada. Se empatou, o turno não muda.
     const proximoTurno =
       vencedorDaUltimaRodada === "empate" ? turno : vencedorDaUltimaRodada;
     setTurno(proximoTurno);
 
-    // Prepara a nova rodada
+    // 4. Puxa novas cartas do baralho para os jogadores.
     const novoDeck = [...deck];
     setCartaAtualJogador(novoDeck.pop()!);
     setCartaAtualBot(novoDeck.pop()!);
     setDeck(novoDeck);
 
-    // Reseta os estados da rodada
+    // 5. Reseta os estados da rodada para prepará-la para a próxima jogada.
     setVencedorRodada(null);
     setAtributoDisputado(null);
     setResultado(
       proximoTurno === "jogador" ? "Sua vez de jogar!" : "Vez do Bot..."
     );
-  }, [deck, placarJogador, placarBot, turno, vencedorDaUltimaRodada]);
+  }, [deck, placarJogador, placarBot, turno]);
 
+  /**
+   * Compara o atributo escolhido entre a carta do jogador e a do bot.
+   * Esta função centraliza a lógica de vitória/derrota da rodada, que no 'Jogo.tsx'
+   * estava mais espalhada e continha 'setTimeout's.
+   * @param atributo O atributo a ser comparado (ex: 'forca').
+   * @param autorDaJogada Quem iniciou a jogada.
+   */
   const compararAtributos = useCallback(
     (atributo: Atributo, autorDaJogada: "jogador" | "bot") => {
       if (!cartaAtualJogador || !cartaAtualBot || jogoFinalizado) return;
@@ -116,25 +146,28 @@ export const useGameLogic = (
         textoResultado = `${textoComparacao} Empate!`;
       }
 
-      // ✅ A MÁGICA ACONTECE AQUI:
-      // Atualizamos tudo de uma vez para sincronizar a UI
+      // A "mágica" acontece aqui: atualizamos todos os estados relevantes de uma só vez.
+      // Isso garante que a UI (interface) reaja de forma sincronizada, mostrando o resultado,
+      // a carta do bot e o botão "Próxima Rodada" ao mesmo tempo.
       vencedorDaUltimaRodada = vencedor;
-      setAtributoDisputado(atributo); // Revela as cartas e o overlay
-      setResultado(textoResultado); // Mostra o resultado final
-      setVencedorRodada(vencedor); // Libera o botão "Confirmar"
-
-      // ✅ REMOVEMOS O SETTIMEOUT DAQUI. O jogo agora espera o botão.
+      setAtributoDisputado(atributo); // Dispara a revelação das cartas e do overlay.
+      setResultado(textoResultado); // Mostra o texto final do resultado.
+      setVencedorRodada(vencedor); // Libera a exibição do botão de avançar.
     },
     [cartaAtualJogador, cartaAtualBot, jogoFinalizado, characterData]
   );
 
+  /**
+   * Lógica de "IA" do bot. Ele simplesmente escolhe o atributo com o maior valor em sua carta atual.
+   * Funcionalmente idêntico ao 'escolherMelhorAtributo' do 'Jogo.tsx', mas integrado ao novo fluxo.
+   */
   const escolherMelhorAtributoBot = useCallback(() => {
     if (!cartaAtualBot) return;
 
     setResultado("Vez do Bot... Ele está escolhendo um atributo.");
 
+    // Um pequeno delay para simular o "pensamento" do bot.
     setTimeout(() => {
-      // Apenas um delay para simular o "pensamento"
       const atributos = {
         forca: cartaAtualBot.forca || 0,
         velocidade: cartaAtualBot.velocidade || 0,
@@ -147,18 +180,25 @@ export const useGameLogic = (
         (a, b) => (atributos[a] > atributos[b] ? a : b)
       );
 
-      // Chama a comparação. A mensagem de resultado será gerada lá dentro.
+      // Em vez de gerar a mensagem aqui, ele chama a função de comparação,
+      // que agora é responsável por gerar o texto de resultado final.
       compararAtributos(melhorAtributo, "bot");
     }, 1500);
   }, [cartaAtualBot, compararAtributos]);
 
+  /**
+   * Efeito que funciona como o "motor" do turno do bot.
+   * Ele "escuta" as mudanças nas variáveis 'turno' e 'vencedorRodada'.
+   * Se for a vez do bot E a rodada ainda não tiver um vencedor, ele inicia a jogada do bot.
+   * Isso é mais eficiente que o useEffect do 'Jogo.tsx' que dependia apenas de 'vezJogador'.
+   */
   useEffect(() => {
-    // Inicia a jogada do bot apenas se a rodada não tiver um vencedor ainda
     if (turno === "bot" && !vencedorRodada && !jogoFinalizado) {
       escolherMelhorAtributoBot();
     }
   }, [turno, vencedorRodada, jogoFinalizado, escolherMelhorAtributoBot]);
 
+  // O hook retorna um objeto com todos os estados e funções que a interface precisa para funcionar.
   return {
     placarJogador,
     placarBot,
@@ -171,6 +211,6 @@ export const useGameLogic = (
     iniciarPartida,
     compararAtributos,
     atributoDisputado,
-    avancarParaProximaRodada, // ✅ Exportamos a nova função
+    avancarParaProximaRodada,
   };
 };
