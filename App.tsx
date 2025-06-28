@@ -4,8 +4,8 @@ import { TelaInicial } from "./src/screens/TelaInicial";
 const App = () => {
 
   return (
-    //<Login />
-    <TelaInicial/>
+    <Login />
+    //<TelaInicial/>
   )
 }
 

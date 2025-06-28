@@ -11,7 +11,7 @@ export interface UserItemProps{
     senha: string
 }
 
-interface UserItemResponse{
+ interface UserItemResponse{
     index: number,
     email: string,
     senha: string
