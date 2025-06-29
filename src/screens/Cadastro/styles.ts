@@ -23,6 +23,19 @@ export const styles = StyleSheet.create({
     texto:{
         fontWeight: 'bold',
         textDecorationLine: 'underline',
+    },
+
+    fundoImg:{
+        flex: 1,
+        resizeMode:"cover"
+    },
+
+    logo:{
+        width: 200,
+        height: 200,
+        borderRadius: 50,  
+        marginTop: 90,
+        alignSelf: 'center',
     }
 
 })
