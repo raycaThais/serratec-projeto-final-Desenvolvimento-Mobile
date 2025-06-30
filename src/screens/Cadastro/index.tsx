@@ -6,6 +6,9 @@ import { Button } from "../../components/Button";
 import { postUserItem } from "../../services/LoginApi";
 import logo from '../../../assets/LogoSemFundo.png';
 import fundo from '../../../assets/apenasFundo.png';
+import { RootStackParamList } from "../../routes";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
 
 export const Cadastro = () => {
 
@@ -15,6 +18,7 @@ export const Cadastro = () => {
     const [mostraAlertaEmail, setMostraAlertaEmail] = useState<boolean>(false);
     const [mostraAlertaNome, setMostraAlertaNome] = useState<boolean>(false);
     const [mostraAlertaSenha, setMostraAlertaSenha] = useState<boolean>(false);
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     const botaoCadastrar = async () => {
 
@@ -33,6 +37,7 @@ export const Cadastro = () => {
         try{
             const response = await postUserItem({nome, email, senha})
             Alert.alert("Usuario cadastrado com sucesso")
+            navigation.navigate("Login")
 
         } catch(error){
             Alert.alert("Erro ao cadastrar o usuario")
@@ -62,7 +67,8 @@ export const Cadastro = () => {
                     {mostraAlertaSenha&&<Text style={{color: 'red', fontWeight: 'bold'}}>Senha em branco</Text>}
                     <Input onChangeText={setSenha} value={senha} placeholder="Senha" secureTextEntry/>
                     <Button onPress={botaoCadastrar} nome={"Cadastrar"} />
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={() => navigation.navigate("Login")}>
                         <Text style={styles.texto}>
                             Voltar
                         </Text>

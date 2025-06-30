@@ -5,8 +5,13 @@ import { RegrasModal } from "../../components/Modal/RegrasModal"
 import { styles } from "./style"
 import { LinearGradient } from "expo-linear-gradient"
 import FloatingAnimation from "../../components/FloatingAnimation"
+import { RootStackParamList } from "../../routes"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import { ButtonStart } from "../../components/Button Start"
 
-export const TelaInicial = () => {
+type TelaInicialScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "HomeTabs">;
+
+export const TelaInicial = ({navigation}: {navigation: TelaInicialScreenNavigationProp}) => {
   const [IsRegrasModalOpen, setIsRegrasModalOpen] = useState<boolean>(false);
 
   return (
@@ -28,8 +33,12 @@ export const TelaInicial = () => {
         </View>
 
         <View style={ styles.botoes }>
-          <Button nome={ "Start" } />
-          <Button nome={ "Ver deck" } />
+          <ButtonStart nome={ "START" }
+          onPress={() => navigation.navigate("GameScreen")}
+          />
+          {/* <Button nome={ "Ver deck" } 
+          onPress={() => navigation.navigate("DeckScreen")}
+          /> */}
         </View>
 
         <RegrasModal

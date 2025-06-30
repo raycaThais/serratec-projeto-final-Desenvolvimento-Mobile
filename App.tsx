@@ -4,13 +4,14 @@ import React from 'react';
 import { Login } from "./src/screens/Login";
 import { TelaInicial } from "./src/screens/TelaInicial";
 import GameScreen from "./src/screens/GameScreen";
+import { Routes } from "./src/routes";
 
 
 const App = () => {
   return (
-    // <Login />
+     <Routes />
     //<TelaInicial />
-    <Cadastro/>
+    //<Cadastro/>
     //<GameScreen />
   );
 }
