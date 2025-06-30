@@ -6,18 +6,18 @@ const CARD_HEIGHT = 250;
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a1a2e",
+    backgroundColor: "#48CAE4",
   },
   centered: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#0a1a2e",
+    backgroundColor: "#48CAE4",
   },
   scoreContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingTop: 50, // Mais espaço no topo
+    paddingTop: 50,
     paddingBottom: 20,
   },
   scoreText: {
@@ -39,7 +39,6 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
-  // Wrapper para garantir que o TouchableOpacity e a carta tenham o mesmo tamanho
   cardWrapper: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
@@ -71,5 +70,11 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textTransform: "uppercase",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#48CAE4",
   },
 });
