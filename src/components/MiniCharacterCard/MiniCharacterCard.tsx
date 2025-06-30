@@ -1,51 +1,72 @@
 import React from 'react';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text, Image, ImageBackground } from 'react-native';
+import type { Atributo } from '../../hooks/useGameLogic';
 import { miniCharacterCardStyles as styles } from './miniCharacterCardStyles';
+import { CardBack } from '../CardBack';
 
-const GROUP_COLORS: Record<string, string> = {
-  mugiwaras: '#ff6b35',
-  marinha: '#2563eb',
-  aliados: '#10b981',
-  shichibukai: '#8b5cf6',
-  viloes: '#ef4444',
-  shanks: '#f59e0b',
-  whitebeard: '#ffffff',
-  roger: '#fbbf24',
-};
+// Lista de todos os atributos possíveis para consulta
+const allAttributes: Atributo[] = ['forca', 'velocidade', 'resistencia', 'inteligencia', 'haki', 'recompensa'];
 
-interface MiniCharacterCardProps {
+export const MiniCharacterCard: React.FC<{
   name: string;
   imageUrl?: string;
-  group: string;
+  cardWidth: number;
+  cardHeight: number;
   borderColor?: string;
-  cardWidth?: number;
-  cardHeight?: number;
-}
+  // Continuamos recebendo todos os atributos
+  forca?: number;
+  velocidade?: number;
+  resistencia?: number;
+  inteligencia?: number;
+  haki?: number;
+  recompensa?: number;
+  // Mas usamos este para controlar o overlay
+  atributoDestacado?: Atributo | null;
+}> = (props) => {
+  const {
+    name,
+    imageUrl,
+    cardWidth,
+    cardHeight,
+    borderColor,
+    atributoDestacado,
+  } = props;
 
-export const MiniCharacterCard: React.FC<MiniCharacterCardProps> = ({
-  name,
-  imageUrl,
-  group,
-  borderColor,
-  cardWidth = 110,
-  cardHeight = 145,
-}) => {
-  const groupBorderColor = borderColor || GROUP_COLORS[group] || '#fff';
+  // Se não houver imagem, mostre o verso da carta.
+  if (!imageUrl) {
+    return <CardBack />;
+  }
+
+  // Função para pegar o valor do atributo destacado
+  const getHighlightedValue = () => {
+    if (!atributoDestacado) return null;
+    return props[atributoDestacado];
+  };
+
   return (
-    <View style={[
-      styles.cardShadow,
-      styles.outerMiniCardContainer,
-      { borderColor: groupBorderColor, width: cardWidth, height: cardHeight },
-    ]}>
+    // Usamos o estilo de card simples para todos os casos
+    <View style={ [styles.cardShadow, { shadowColor: borderColor || '#000', borderColor: borderColor || '#fff' }] }>
       <ImageBackground
-        source={imageUrl ? { uri: imageUrl } : undefined}
-        style={[styles.innerCardContainer, { width: cardWidth, height: cardHeight }]}
-        imageStyle={styles.innerCardImage}
+        source={ { uri: imageUrl } }
+        style={ [styles.cardContainer, { width: cardWidth, height: cardHeight }] }
+        imageStyle={ styles.cardImage } // Usaremos cover para um bom enquadramento
       >
-        <View style={styles.nameBottomContainer}>
-          <Text style={styles.nameBottomText}>{name}</Text>
+        {/* Overlay que só aparece quando um atributo é disputado */ }
+        { atributoDestacado && (
+          <View style={ styles.highlightOverlay }>
+            <Text style={ styles.highlightAttributeName }>
+              { atributoDestacado.charAt(0).toUpperCase() + atributoDestacado.slice(1) }
+            </Text>
+            <Text style={ styles.highlightAttributeValue }>
+              { getHighlightedValue() }
+            </Text>
+          </View>
+        ) }
+
+        <View style={ [styles.nameBottomContainer, atributoDestacado && { backgroundColor: 'transparent' }] }>
+          <Text style={ styles.nameBottomText }>{ name }</Text>
         </View>
       </ImageBackground>
     </View>
   );
-}; 
+};

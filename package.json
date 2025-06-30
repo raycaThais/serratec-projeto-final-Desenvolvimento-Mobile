@@ -17,12 +17,13 @@
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-native": "0.79.4",
-    "react-native-reanimated": "^3.18.0"
+    "react-native-reanimated": "~3.17.4",
+    "expo-blur": "~14.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
-    "expo": "^53.0.12",
+    "expo": "53.0.13",
     "typescript": "~5.8.3"
   },
   "private": true
