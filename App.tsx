@@ -12,8 +12,8 @@ const App = () => {
     // <Login />
     //<TelaInicial />
     //<Cadastro/>r
-    <GameScreen />
-    //<DeckScreen />
+    //<GameScreen />
+    <DeckScreen />
   );
 }
 
