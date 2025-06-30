@@ -3,7 +3,7 @@ import { View, ScrollView, Text, TouchableOpacity, ActivityIndicator } from 'rea
 import { MiniCharacterCard } from '../../components/MiniCharacterCard/MiniCharacterCard';
 import { onePieceCharacters, getCharacterAttributes } from '../../data/OnePieceCharacters';
 import { deckScreenStyles as styles } from './deckScreenStyles';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'; // rapaz sem navegação isso aqui quebra 
 
 // --- Importação do serviço e do tipo ---
 import { fetchAllCharacterDetails, CharacterData } from '../../services/JikanApi';
@@ -17,7 +17,7 @@ type CharacterDisplayData = CharacterData & { group: string };
 export const DeckScreen: React.FC = () => {
   const [charactersData, setCharactersData] = useState<Record<number, CharacterDisplayData>>({});
   const [loading, setLoading] = useState(true);
-  const navigation = useNavigation();
+  const navigation = useNavigation(); // rapaz sem navegação isso aqui quebra  2
 
   useEffect(() => {
     const fetchDeckData = async () => {
