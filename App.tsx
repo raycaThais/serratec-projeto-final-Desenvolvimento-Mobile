@@ -8,9 +8,9 @@ import GameScreen from "./src/screens/GameScreen";
 
 const App = () => {
   return (
-    <Login />
+    // <Login />
     //<TelaInicial />
-    //<Cadastro/>
+    <Cadastro/>
     //<GameScreen />
   );
 }

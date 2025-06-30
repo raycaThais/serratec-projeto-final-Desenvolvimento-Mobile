@@ -12,8 +12,23 @@ export const Cadastro = () => {
     const [email, setEmail] = useState<string>("");
     const [senha, setSenha] = useState<string>("");
     const [nome, setNome] = useState<string>("");
+    const [mostraAlertaEmail, setMostraAlertaEmail] = useState<boolean>(false);
+    const [mostraAlertaNome, setMostraAlertaNome] = useState<boolean>(false);
+    const [mostraAlertaSenha, setMostraAlertaSenha] = useState<boolean>(false);
 
     const botaoCadastrar = async () => {
+
+        if(email.trim() === "" || nome.trim() === "" || senha.trim() === "" ){
+
+        if(email.trim() === ""){
+            setMostraAlertaEmail(true)   
+        } if(nome.trim() === ""){
+            setMostraAlertaNome(true) 
+        } if(senha.trim() === ""){
+            setMostraAlertaSenha(true)       
+        }
+        return
+    }
 
         try{
             const response = await postUserItem({nome, email, senha})
@@ -40,8 +55,11 @@ export const Cadastro = () => {
             <Image source={logo} style={styles.logo} />
                 <View style={styles.cadastro}>
                     <Text style={styles.title}>Cadastre-se</Text>
+                    {mostraAlertaNome&&<Text style={{color: 'red', fontWeight: 'bold'}}>Nome em branco</Text>}
                     <Input onChangeText={setNome} value={nome} placeholder="Nome"/>
+                    {mostraAlertaEmail&&<Text style={{color: 'red', fontWeight: 'bold'}}>Email em branco</Text>}
                     <Input onChangeText={setEmail} value={email} placeholder="Email"/>
+                    {mostraAlertaSenha&&<Text style={{color: 'red', fontWeight: 'bold'}}>Senha em branco</Text>}
                     <Input onChangeText={setSenha} value={senha} placeholder="Senha" secureTextEntry/>
                     <Button onPress={botaoCadastrar} nome={"Cadastrar"} />
                     <TouchableOpacity>
