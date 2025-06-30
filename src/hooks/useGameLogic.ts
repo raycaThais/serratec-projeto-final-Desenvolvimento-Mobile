@@ -18,6 +18,7 @@ let vencedorDaUltimaRodada: "jogador" | "bot" | "empate" = "jogador";
  * Hook customizado que encapsula toda a lógica do jogo de Super Trunfo.
  * @param characterData
  */
+
 export const useGameLogic = (
   characterData: Record<number, { name: string; imageUrl?: string }> = {}
 ) => {
