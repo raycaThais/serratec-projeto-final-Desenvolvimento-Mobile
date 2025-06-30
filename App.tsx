@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Login } from "./src/screens/Login";
 import { TelaInicial } from "./src/screens/TelaInicial";
-import GameScreen from "./src/screens/GameScreen";
+import GameScreen from "./src/screens/GameScreen/GameScreen";
 import { DeckScreen } from "./src/screens/DeckScreen/DeckScreen";
 
 
@@ -12,8 +12,8 @@ const App = () => {
     // <Login />
     //<TelaInicial />
     //<Cadastro/>r
-    //<GameScreen />
-    <DeckScreen />
+    <GameScreen />
+    //<DeckScreen />
   );
 }
 

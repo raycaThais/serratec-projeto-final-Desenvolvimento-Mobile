@@ -5,8 +5,8 @@ import { useGameLogic, Atributo } from '../../hooks/useGameLogic';
 import { ExpandableCardOverlay } from '../../components/ExpandableCardOverlay';
 import GameOverModal from '../../components/GameOverModal';
 import { MiniCharacterCard } from '../../components/MiniCharacterCard/MiniCharacterCard';
-import { CardBack } from '../../components/CardBack';
-import { styles } from './styles';
+import { CardBack } from '../../components/CardBack/CardBack';
+import { styles } from './GameScreenStyles';
 import type { OnePieceCharacter } from '../../data/OnePieceCharacters';
 import { fetchAllCharacterDetails, CharacterData } from '../../services/JikanApi';
 
