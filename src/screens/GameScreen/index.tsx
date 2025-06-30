@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
 // --- Importação de Componentes e Lógica ---
@@ -9,7 +9,7 @@ import GameOverModal from '../../components/GameOverModal'; // Modal de fim de j
 import { MiniCharacterCard } from '../../components/MiniCharacterCard/MiniCharacterCard'; // Componente do card.
 import { CardBack } from '../../components/CardBack'; // Componente para o verso da carta.
 import { onePieceCharacters } from '../../data/OnePieceCharacters'; // Dados estáticos dos personagens.
-import { styles as screenStyles } from './styles'; // Estilos da tela.
+import { styles } from './styles';
 import type { OnePieceCharacter } from '../../data/OnePieceCharacters';
 
 // --- Tipos e Constantes ---
@@ -19,11 +19,11 @@ type Card = OnePieceCharacter & CharacterData; // Combina os dados locais e da A
 const CARD_WIDTH = 180; // Largura padrão dos cards na tela.
 const CARD_HEIGHT = 250; // Altura padrão dos cards na tela.
 
-/**
- * Componente de tela que renderiza a interface principal do jogo.
- */
+// Componente de tela que renderiza a interface principal do jogo.
+
 const GameScreen = () => {
   // --- Estados do Componente ---
+
   // Estado para armazenar dados (nome, imagem) buscados da API.
   const [characterDetails, setCharacterDetails] = useState<Record<number, CharacterData>>({});
   // Estado para controlar a tela de carregamento inicial.
@@ -32,8 +32,7 @@ const GameScreen = () => {
   const [cardToExpand, setCardToExpand] = useState<Card | null>(null);
 
   // --- Uso do Hook de Lógica ---
-  // Aqui, o componente "consome" o hook. Ele recebe todos os estados e funções
-  // necessários para exibir o jogo e responder a ações.
+
   const {
     placarJogador,
     placarBot,
@@ -92,7 +91,7 @@ const GameScreen = () => {
   };
 
   // Renderiza um indicador de carregamento enquanto os dados da API não chegam.
-  if (loading) return <View style={ screenStyles.centered }><ActivityIndicator size="large" color="#facc15" /></View>;
+  if (loading) return <View style={ styles.centered }><ActivityIndicator size="large" color="#facc15" /></View>;
 
   // Combina os dados locais das cartas com os dados da API para renderização.
   const playerCardWithDetails = cartaAtualJogador ? { ...cartaAtualJogador, ...characterDetails[cartaAtualJogador.malId] } : null;
@@ -103,22 +102,22 @@ const GameScreen = () => {
 
   // --- Renderização do JSX ---
   return (
-    <SafeAreaView style={ screenStyles.container }>
+    <SafeAreaView style={ styles.container }>
       {/* Renderiza a tela principal do jogo ou o overlay da carta expandida */ }
       { !cardToExpand ? (
         <>
           {/* Seção do Placar */ }
-          <View style={ screenStyles.scoreContainer }>
-            <Text style={ screenStyles.scoreText }>Você: { placarJogador }</Text>
-            <Text style={ screenStyles.scoreText }>Bot: { placarBot }</Text>
+          <View style={ styles.scoreContainer }>
+            <Text style={ styles.scoreText }>Você: { placarJogador }</Text>
+            <Text style={ styles.scoreText }>Bot: { placarBot }</Text>
           </View>
 
           {/* Seção do Campo de Batalha */ }
-          <View style={ screenStyles.battlefield }>
+          <View style={ styles.battlefield }>
             {/* Lado do Bot */ }
-            <View style={ screenStyles.playerSide }>
-              <Text style={ screenStyles.playerName }>Bot</Text>
-              <View style={ screenStyles.cardWrapper }>
+            <View style={ styles.playerSide }>
+              <Text style={ styles.playerName }>Bot</Text>
+              <View style={ styles.cardWrapper }>
                 {/* Mostra a carta do bot virada para cima apenas quando um atributo é disputado. Senão, mostra o verso. */ }
                 { atributoDisputado && botCardWithDetails ? (
                   <MiniCharacterCard
@@ -133,10 +132,10 @@ const GameScreen = () => {
               </View>
             </View>
             {/* Lado do Jogador */ }
-            <View style={ screenStyles.playerSide }>
-              <Text style={ screenStyles.playerName }>Você</Text>
+            <View style={ styles.playerSide }>
+              <Text style={ styles.playerName }>Você</Text>
               <TouchableOpacity
-                style={ screenStyles.cardWrapper }
+                style={ styles.cardWrapper }
                 onPress={ () => playerCardWithDetails && setCardToExpand(playerCardWithDetails) }
                 // Desabilita o clique se não for o turno do jogador ou se a rodada estiver na fase de resultado.
                 disabled={ turno !== 'jogador' || isResultPhase }
@@ -154,8 +153,8 @@ const GameScreen = () => {
           </View>
 
           {/* Seção de Status e Ações */ }
-          <View style={ screenStyles.statusContainer }>
-            <Text style={ screenStyles.statusText }>{ resultado }</Text>
+          <View style={ styles.statusContainer }>
+            <Text style={ styles.statusText }>{ resultado }</Text>
 
             {/* Botão de "Próxima Rodada" que só aparece na fase de resultado. */ }
             { isResultPhase && !jogoFinalizado && (
@@ -184,24 +183,5 @@ const GameScreen = () => {
     </SafeAreaView>
   );
 };
-
-// Estilos específicos para este componente (neste caso, o botão).
-const styles = StyleSheet.create({
-  confirmButton: {
-    backgroundColor: '#facc15',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-    marginTop: 15,
-    alignSelf: 'center',
-    elevation: 5,
-  },
-  confirmButtonText: {
-    color: '#1e3a8a',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  }
-});
 
 export default GameScreen;
