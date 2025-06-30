@@ -10,8 +10,8 @@ const App = () => {
   return (
     // <Login />
     //<TelaInicial />
-    <Cadastro/>
-    //<GameScreen />
+    //<Cadastro/>r
+    <GameScreen />
   );
 }
 
