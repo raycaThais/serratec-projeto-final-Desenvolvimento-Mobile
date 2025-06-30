@@ -36,27 +36,34 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     top: 1,
   },
-  titulo: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 16,
-    marginBottom: 16,
-
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   containermodal: {
-    backgroundColor: 'orange',
-    borderRadius: 50,
-    justifyContent: 'flex-start',
-    width: '90%',
-    height: 500,
-    padding: 20,
-    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
+    width: '90%',
+    minHeight: 200,
+    padding: 10,
+    overflow: 'hidden'
   },
-  modaltext: {
-    fontSize: 14,
-    textAlign: 'center'
+  titulo: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 5,
   },
-
+  caixaScroll: {
+    width: '100%',
+    maxHeight: 400,
+  },
+  secoesduvidas: {
+    marginBottom: 10,
+  },
+  textosecaoduvidas: {
+    fontSize: 15,
+    textAlign: 'left',
+    margin: 5,
+  },
 });
-

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, ImageBackground, Animated, PanResponder } from 'react-native';
+import { View, Text, ImageBackground, Animated, PanResponder, TouchableOpacity } from 'react-native';
 import { characterCardStyles as styles, CARD_WIDTH, CARD_HEIGHT } from './characterCardStyles';
 import { BlurView } from 'expo-blur';
 
@@ -16,6 +16,9 @@ interface CharacterCardProps {
   inteligencia?: number;
   haki?: number;
   recompensa?: number;
+  hideAttributes?: boolean;
+  onSelectAttribute?: (attribute: string) => void;
+  disabledAttributes?: boolean;
 }
 
 const ATTRIBUTES = [
@@ -50,6 +53,9 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
   inteligencia,
   haki,
   recompensa,
+  hideAttributes = false,
+  onSelectAttribute,
+  disabledAttributes = false,
 }) => {
   const [imgSrc, setImgSrc] = useState(imageUrl);
   
@@ -124,7 +130,7 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
   // Brilho animado na borda envolvendo todo o card
   const animatedBorderGlow = {
     borderColor: groupBorderColor,
-    borderWidth: 6,
+    borderWidth: 8,
     borderRadius: 28,
     shadowColor: groupBorderColor,
     shadowOffset: { width: 0, height: 0 },
@@ -167,24 +173,49 @@ export const CharacterCard: React.FC<CharacterCardProps> = ({
           {/* Overlay gradient para melhor legibilidade */}
           <View style={styles.gradientOverlay} />
           {/* Glassmorphism nos atributos */}
-          <View style={styles.attributesContainer}>
-            <BlurView intensity={80} tint="dark" style={styles.blurView} />
-            <View style={styles.attributesContent}>
-              {ATTRIBUTES.map((attr, idx) => (
-                attrValues[attr.key as keyof typeof attrValues] !== undefined && (
-                  <View key={attr.key} style={[styles.attributeRow, idx === ATTRIBUTES.length - 1 && styles.lastAttributeRow]}>
-                    <View style={styles.attrLabelContainer}>
-                      <Text style={styles.attrIcon}>{attr.icon}</Text>
-                      <Text style={styles.attrLabel}>{attr.label}</Text>
-                    </View>
-                    <View style={styles.attrValueContainer}>
-                      <Text style={styles.attrValue}>{attrValues[attr.key as keyof typeof attrValues]}</Text>
-                    </View>
-                  </View>
-                )
-              ))}
+          {!hideAttributes && (
+            <View style={styles.attributesContainer}>
+              <BlurView intensity={80} tint="dark" style={styles.blurView} />
+              <View style={styles.attributesContent}>
+                {ATTRIBUTES.map((attr, idx) => (
+                  attrValues[attr.key as keyof typeof attrValues] !== undefined && (
+                    onSelectAttribute ? (
+                      <TouchableOpacity
+                        key={attr.key}
+                        style={[
+                          styles.attributeRow,
+                          idx === ATTRIBUTES.length - 1 && styles.lastAttributeRow,
+                          styles.selectableAttributeRow,
+                          disabledAttributes && { opacity: 0.5 },
+                        ]}
+                        onPress={() => onSelectAttribute(attr.key)}
+                        activeOpacity={0.7}
+                        disabled={disabledAttributes}
+                      >
+                        <View style={styles.attrLabelContainer}>
+                          <Text style={styles.attrIcon}>{attr.icon}</Text>
+                          <Text style={styles.attrLabel}>{attr.label}</Text>
+                        </View>
+                        <View style={styles.attrValueContainer}>
+                          <Text style={styles.attrValue}>{attrValues[attr.key as keyof typeof attrValues]}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ) : (
+                      <View key={attr.key} style={[styles.attributeRow, idx === ATTRIBUTES.length - 1 && styles.lastAttributeRow]}>
+                        <View style={styles.attrLabelContainer}>
+                          <Text style={styles.attrIcon}>{attr.icon}</Text>
+                          <Text style={styles.attrLabel}>{attr.label}</Text>
+                        </View>
+                        <View style={styles.attrValueContainer}>
+                          <Text style={styles.attrValue}>{attrValues[attr.key as keyof typeof attrValues]}</Text>
+                        </View>
+                      </View>
+                    )
+                  )
+                ))}
+              </View>
             </View>
-          </View>
+          )}
           {/* Grupo indicator */}
           <View style={[styles.groupIndicator, { backgroundColor: groupBorderColor }]}> 
             <Text style={styles.groupText}>{group.toUpperCase()}</Text>
