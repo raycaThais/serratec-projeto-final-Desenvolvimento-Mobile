@@ -4,18 +4,14 @@ import { Login } from '../screens/Login';
 import { Cadastro } from '../screens/Cadastro';
 import GameScreen from '../screens/GameScreen/GameScreen';
 import { BottomTabsNavigator } from './BottomTabs';
-import GameOverModal from '../components/GameOverModal';
-
 
 export type RootStackParamList = {
   HomeTabs: undefined;
   Login: undefined;
   Cadastro: undefined;
   GameScreen: undefined;
-  DeckScreen: undefined;
-  GameOverModal: undefined;
+  DeckScreen: undefined;  
 };
-
  const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Routes = () => {
@@ -26,13 +22,8 @@ export const Routes = () => {
             <Stack.Screen name="HomeTabs" component={BottomTabsNavigator} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Cadastro" component={Cadastro} />
-            <Stack.Screen name="GameScreen" component={GameScreen} />
-            
-
+            <Stack.Screen name="GameScreen" component={GameScreen} />        
           </Stack.Navigator>
-
-
-
         </NavigationContainer>
         
     );
