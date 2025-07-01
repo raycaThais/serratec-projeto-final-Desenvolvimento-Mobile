@@ -13,14 +13,12 @@ export const MiniCharacterCard: React.FC<{
   cardWidth: number;
   cardHeight: number;
   borderColor?: string;
-  // Continuamos recebendo todos os atributos
   forca?: number;
   velocidade?: number;
   resistencia?: number;
   inteligencia?: number;
   haki?: number;
   recompensa?: number;
-  // Mas usamos este para controlar o overlay
   atributoDestacado?: Atributo | null;
 }> = (props) => {
   const {
@@ -32,26 +30,22 @@ export const MiniCharacterCard: React.FC<{
     atributoDestacado,
   } = props;
 
-  // Se não houver imagem, mostre o verso da carta.
   if (!imageUrl) {
     return <CardBack />;
   }
 
-  // Função para pegar o valor do atributo destacado
   const getHighlightedValue = () => {
     if (!atributoDestacado) return null;
     return props[atributoDestacado];
   };
 
   return (
-    // Usamos o estilo de card simples para todos os casos
     <View style={ [styles.cardShadow, { shadowColor: borderColor || '#000', borderColor: borderColor || '#fff' }] }>
       <ImageBackground
         source={ { uri: imageUrl } }
         style={ [styles.cardContainer, { width: cardWidth, height: cardHeight }] }
-        imageStyle={ styles.cardImage } // Usaremos cover para um bom enquadramento
+        imageStyle={ styles.cardImage }
       >
-        {/* Overlay que só aparece quando um atributo é disputado */ }
         { atributoDestacado && (
           <View style={ styles.highlightOverlay }>
             <Text style={ styles.highlightAttributeName }>

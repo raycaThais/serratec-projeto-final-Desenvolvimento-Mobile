@@ -1,7 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export const miniCharacterCardStyles = StyleSheet.create({
-  // Manteremos os estilos do card simples, que agora será o padrão
   cardShadow: {
     borderRadius: 18,
     shadowOffset: { width: 0, height: 0 },
@@ -17,15 +16,15 @@ export const miniCharacterCardStyles = StyleSheet.create({
   cardContainer: {
     borderRadius: 14,
     overflow: "hidden",
-    justifyContent: "flex-end", // Alinha o nome na parte inferior
+    justifyContent: "flex-end",
     alignItems: "center",
     position: "relative",
-    backgroundColor: "#111", // Cor de fundo caso a imagem demore a carregar
+    backgroundColor: "#111",
   },
   cardImage: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover", // Cover oferece o melhor enquadramento
+    resizeMode: "cover",
   },
   nameBottomContainer: {
     position: "absolute",
@@ -47,7 +46,6 @@ export const miniCharacterCardStyles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
-  // --- NOVOS ESTILOS PARA O OVERLAY DE ATRIBUTO DESTACADO ---
   highlightOverlay: {
     position: "absolute",
     top: 0,
@@ -59,7 +57,7 @@ export const miniCharacterCardStyles = StyleSheet.create({
     alignItems: "center",
   },
   highlightAttributeName: {
-    color: "#facc15", // Amarelo
+    color: "#facc15",
     fontSize: 20,
     fontWeight: "bold",
     textTransform: "uppercase",
