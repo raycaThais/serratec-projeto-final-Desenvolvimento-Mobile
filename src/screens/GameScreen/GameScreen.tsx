@@ -1,38 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, ActivityIndicator, TouchableOpacity } from 'react-native';
-import axios from 'axios';
 
-// --- Importação de Componentes e Lógica ---
-import { useGameLogic, Atributo } from '../../hooks/useGameLogic'; // O hook com a lógica do jogo.
-import { ExpandableCardOverlay } from '../../components/ExpandableCardOverlay'; // Modal para expandir a carta.
-import GameOverModal from '../../components/GameOverModal'; // Modal de fim de jogo.
-import { MiniCharacterCard } from '../../components/MiniCharacterCard/MiniCharacterCard'; // Componente do card.
-import { CardBack } from '../../components/CardBack'; // Componente para o verso da carta.
-import { onePieceCharacters } from '../../data/OnePieceCharacters'; // Dados estáticos dos personagens.
-import { styles } from './styles';
+import { useGameLogic, Atributo } from '../../hooks/useGameLogic';
+import { ExpandableCardOverlay } from '../../components/ExpandableCardOverlay';
+import GameOverModal from '../../components/GameOverModal';
+import { MiniCharacterCard } from '../../components/MiniCharacterCard/MiniCharacterCard';
+import { CardBack } from '../../components/CardBack/CardBack';
+import { styles } from './GameScreenStyles';
 import type { OnePieceCharacter } from '../../data/OnePieceCharacters';
+import { fetchAllCharacterDetails, CharacterData } from '../../services/JikanApi';
 
 // --- Tipos e Constantes ---
-type CharacterData = { name: string; imageUrl?: string }; // Tipo para os dados vindos da API.
-type Card = OnePieceCharacter & CharacterData; // Combina os dados locais e da API.
+type Card = OnePieceCharacter & CharacterData;
 
-const CARD_WIDTH = 180; // Largura padrão dos cards na tela.
-const CARD_HEIGHT = 250; // Altura padrão dos cards na tela.
-
-// Componente de tela que renderiza a interface principal do jogo.
+const CARD_WIDTH = 180;
+const CARD_HEIGHT = 250;
 
 const GameScreen = () => {
   // --- Estados do Componente ---
-
-  // Estado para armazenar dados (nome, imagem) buscados da API.
   const [characterDetails, setCharacterDetails] = useState<Record<number, CharacterData>>({});
-  // Estado para controlar a tela de carregamento inicial.
   const [loading, setLoading] = useState(true);
-  // Estado para controlar qual carta está expandida na tela.
   const [cardToExpand, setCardToExpand] = useState<Card | null>(null);
 
   // --- Uso do Hook de Lógica ---
-
   const {
     placarJogador,
     placarBot,
@@ -46,43 +36,29 @@ const GameScreen = () => {
     compararAtributos,
     atributoDisputado,
     avancarParaProximaRodada,
-  } = useGameLogic(characterDetails);
+  } = useGameLogic(characterDetails); // O hook recebe os detalhes dos personagens
 
   // --- Efeitos do Componente (Lifecycle) ---
 
-  // Efeito para buscar os dados dos personagens da API Jikan na primeira renderização.
+  // Efeito para buscar os dados dos personagens usando o serviço centralizado
   useEffect(() => {
-    const fetchCharacterData = async () => {
+    const fetchGameData = async () => {
       setLoading(true);
-      const details: Record<number, CharacterData> = {};
-      try {
-        const res = await axios.get('https://api.jikan.moe/v4/anime/21/characters');
-        const apiCharacters = res.data.data;
-        for (const char of onePieceCharacters) {
-          const apiChar = apiCharacters.find((c: any) => c.character.mal_id === char.malId);
-          details[char.malId] = { name: apiChar ? apiChar.character.name : `Personagem ${char.malId}`, imageUrl: apiChar ? apiChar.character.images.jpg.image_url : undefined };
-        }
-      } catch (error) {
-        console.error("Erro ao buscar dados dos personagens:", error);
-      } finally {
-        setCharacterDetails(details);
-        setLoading(false);
-      }
+      const details = await fetchAllCharacterDetails(); // Chama a função do serviço
+      setCharacterDetails(details);
+      setLoading(false);
     };
-    fetchCharacterData();
-  }, []);
+    fetchGameData();
+  }, []); // Executa apenas uma vez, na montagem do componente
 
   // Efeito que inicia a partida assim que o carregamento dos dados termina.
   useEffect(() => {
-    if (!loading) iniciarPartida();
-  }, [loading]);
+    if (!loading) {
+      iniciarPartida();
+    }
+  }, [loading]); // Depende do estado de 'loading'
 
   // --- Funções de Manipulação de Eventos (Handlers) ---
-
-  /**
-   * Chamada quando o jogador seleciona um atributo na carta expandida.
-   * Ela fecha o overlay e chama a função de comparação do hook.
-   */
   const handleSelectAttribute = (attribute: Atributo) => {
     if (cardToExpand) {
       setCardToExpand(null);
@@ -90,35 +66,36 @@ const GameScreen = () => {
     }
   };
 
-  // Renderiza um indicador de carregamento enquanto os dados da API não chegam.
-  if (loading) return <View style={ styles.centered }><ActivityIndicator size="large" color="#facc15" /></View>;
+  // --- Renderização ---
 
-  // Combina os dados locais das cartas com os dados da API para renderização.
+  if (loading) {
+    return (
+      <View style={ styles.centered }>
+        <ActivityIndicator size="large" color="#facc15" />
+      </View>
+    );
+  }
+
   const playerCardWithDetails = cartaAtualJogador ? { ...cartaAtualJogador, ...characterDetails[cartaAtualJogador.malId] } : null;
   const botCardWithDetails = cartaAtualBot ? { ...cartaAtualBot, ...characterDetails[cartaAtualBot.malId] } : null;
-
-  // Variável booleana para simplificar a verificação da fase de resultado.
   const isResultPhase = !!vencedorRodada;
 
-  // --- Renderização do JSX ---
   return (
     <SafeAreaView style={ styles.container }>
-      {/* Renderiza a tela principal do jogo ou o overlay da carta expandida */ }
       { !cardToExpand ? (
         <>
-          {/* Seção do Placar */ }
+          {/* Placar */ }
           <View style={ styles.scoreContainer }>
             <Text style={ styles.scoreText }>Você: { placarJogador }</Text>
             <Text style={ styles.scoreText }>Bot: { placarBot }</Text>
           </View>
 
-          {/* Seção do Campo de Batalha */ }
+          {/* Campo de Batalha */ }
           <View style={ styles.battlefield }>
             {/* Lado do Bot */ }
             <View style={ styles.playerSide }>
               <Text style={ styles.playerName }>Bot</Text>
               <View style={ styles.cardWrapper }>
-                {/* Mostra a carta do bot virada para cima apenas quando um atributo é disputado. Senão, mostra o verso. */ }
                 { atributoDisputado && botCardWithDetails ? (
                   <MiniCharacterCard
                     { ...botCardWithDetails }
@@ -137,7 +114,6 @@ const GameScreen = () => {
               <TouchableOpacity
                 style={ styles.cardWrapper }
                 onPress={ () => playerCardWithDetails && setCardToExpand(playerCardWithDetails) }
-                // Desabilita o clique se não for o turno do jogador ou se a rodada estiver na fase de resultado.
                 disabled={ turno !== 'jogador' || isResultPhase }
               >
                 { playerCardWithDetails && (
@@ -152,11 +128,9 @@ const GameScreen = () => {
             </View>
           </View>
 
-          {/* Seção de Status e Ações */ }
+          {/* Status e Ações */ }
           <View style={ styles.statusContainer }>
             <Text style={ styles.statusText }>{ resultado }</Text>
-
-            {/* Botão de "Próxima Rodada" que só aparece na fase de resultado. */ }
             { isResultPhase && !jogoFinalizado && (
               <TouchableOpacity style={ styles.confirmButton } onPress={ avancarParaProximaRodada }>
                 <Text style={ styles.confirmButtonText }>Próxima Rodada</Text>

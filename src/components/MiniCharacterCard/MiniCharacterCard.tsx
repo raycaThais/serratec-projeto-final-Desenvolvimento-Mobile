@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, ImageBackground } from 'react-native';
 import type { Atributo } from '../../hooks/useGameLogic';
 import { miniCharacterCardStyles as styles } from './miniCharacterCardStyles';
-import { CardBack } from '../CardBack';
+import { CardBack } from '../CardBack/CardBack';
 
 // Lista de todos os atributos possíveis para consulta
 const allAttributes: Atributo[] = ['forca', 'velocidade', 'resistencia', 'inteligencia', 'haki', 'recompensa'];
