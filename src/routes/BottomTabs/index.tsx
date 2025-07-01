@@ -3,11 +3,12 @@ import { TelaInicial } from '../../screens/TelaInicial';
 import { DeckScreen } from '../../screens/DeckScreen/DeckScreen';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native';
+import { PerfilScreen } from '../../screens/PerfilScreen';
 
 export type BottomTabs = {
   TelaInicial: undefined;
   DeckScreen: undefined;
-  Perfil: undefined;
+  PerfilScreen: undefined;
 };
 
 const Tab = createBottomTabNavigator<BottomTabs>();
@@ -44,8 +45,6 @@ export const BottomTabsNavigator = () => {
 
         }}
       />
-
-
       <Tab.Screen name="DeckScreen"
         component={DeckScreen}
         options={{
@@ -55,6 +54,15 @@ export const BottomTabsNavigator = () => {
           ),
         }}
       />
+
+      <Tab.Screen name="PerfilScreen"
+        component={PerfilScreen}
+        options={{
+          tabBarLabel: 'Perfil',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }} />
 
     </Tab.Navigator>
   );

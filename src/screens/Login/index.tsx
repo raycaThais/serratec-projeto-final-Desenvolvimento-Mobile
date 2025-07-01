@@ -8,6 +8,7 @@ import logo from '../../../assets/LogoSemFundo.png'
 import fundo from '../../../assets/apenasFundo.png'
 import  { RootStackParamList } from "../../routes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import  AsyncService  from "../../services/Async";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
 export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => {
@@ -31,7 +32,8 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
       const usuarioEncontrado = listarUsuarios.find(usuario => usuario.email === email && usuario.senha === senha);
 
       if (usuarioEncontrado) {
-        Alert.alert('Login válido', `Bem vindo, ${usuarioEncontrado.nome}!`) //mudar para o assincronous storage
+        await AsyncService.saveData(usuarioEncontrado);
+        Alert.alert('Login válido', `Bem vindo, ${usuarioEncontrado.nome}!`)
         setEmail("");
         setSenha("");
         navigation.navigate("HomeTabs");
