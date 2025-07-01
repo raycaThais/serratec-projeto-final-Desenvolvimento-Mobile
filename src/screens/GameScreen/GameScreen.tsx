@@ -9,6 +9,10 @@ import { CardBack } from '../../components/CardBack/CardBack';
 import { styles } from './GameScreenStyles';
 import type { OnePieceCharacter } from '../../data/OnePieceCharacters';
 import { fetchAllCharacterDetails, CharacterData } from '../../services/JikanApi';
+import { RootStackParamList } from '../../routes';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type GameScreenScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "GameScreen">;
 
 // --- Tipos e Constantes ---
 type Card = OnePieceCharacter & CharacterData;
@@ -16,7 +20,7 @@ type Card = OnePieceCharacter & CharacterData;
 const CARD_WIDTH = 180;
 const CARD_HEIGHT = 250;
 
-const GameScreen = () => {
+const GameScreen = ({navigation}: {navigation: GameScreenScreenNavigationProp}) => {
   // --- Estados do Componente ---
   const [characterDetails, setCharacterDetails] = useState<Record<number, CharacterData>>({});
   const [loading, setLoading] = useState(true);
@@ -153,6 +157,7 @@ const GameScreen = () => {
         visible={ jogoFinalizado }
         result={ placarJogador > placarBot ? 'win' : 'lose' }
         onClose={ iniciarPartida }
+        navigation={ navigation } // Navega para a tela inicial
       />
     </SafeAreaView>
   );

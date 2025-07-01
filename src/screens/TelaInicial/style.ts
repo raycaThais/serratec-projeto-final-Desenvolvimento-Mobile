@@ -20,6 +20,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     top: 1,
+    marginTop: 60,    
   },
   duvidas: {
     shadowColor: "#000",

@@ -6,8 +6,11 @@ import { styles } from "./styles";
 import { getUserItems, UserItemProps } from "../../services/LoginApi";
 import logo from '../../../assets/LogoSemFundo.png'
 import fundo from '../../../assets/apenasFundo.png'
+import  { RootStackParamList } from "../../routes";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-export const Login = () => {
+type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
+export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => {
 
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
@@ -16,11 +19,12 @@ export const Login = () => {
 
   const senhaRef = useRef<TextInput>(null);
 
+ 
+
   const validarLogin = async () => {
     try {
       const response = await getUserItems();
-      console.log(response.data);
-      
+           
       const listarUsuarios = Array.isArray(response.data) ? response.data : [];
       setUsuarios(listarUsuarios);
 
@@ -28,6 +32,9 @@ export const Login = () => {
 
       if (usuarioEncontrado) {
         Alert.alert('Login válido', `Bem vindo, ${usuarioEncontrado.nome}!`) //mudar para o assincronous storage
+        setEmail("");
+        setSenha("");
+        navigation.navigate("HomeTabs");
       }else {
         Alert.alert('Login inválido', 'Usuário ou senha incorretos.');
         setSenha("")
@@ -74,7 +81,8 @@ export const Login = () => {
              placeholderTextColor="#000" 
              />
             <Button onPress={validarLogin} nome={"Entrar"} />
-            <TouchableOpacity>
+            <TouchableOpacity 
+            onPress={() => navigation.navigate("Cadastro")}>
               <Text style={styles.texto}>
                 Cadastre-se
               </Text>

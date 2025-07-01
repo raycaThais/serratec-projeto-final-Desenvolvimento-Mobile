@@ -1,8 +1,13 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import GameOverModalStyles from './GameOverModalStyles';
+import { RootStackParamList } from '../../routes';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type GameScreenScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "GameScreen">;
 
 interface GameOverModalProps {
+  navigation: GameScreenScreenNavigationProp;
   visible: boolean;
   result: 'win' | 'lose' | 'draw';
   onClose: () => void;
@@ -14,13 +19,16 @@ const messages = {
   draw: 'Empate!',
 };
 
-const GameOverModal: React.FC<GameOverModalProps> = ({ visible, result, onClose }) => (
+const GameOverModal: React.FC<GameOverModalProps> = ({ visible, result, onClose, navigation}) => (
   <Modal visible={visible} transparent animationType="fade">
     <View style={GameOverModalStyles.overlay}>
       <View style={GameOverModalStyles.modal}>
         <Text style={GameOverModalStyles.title}>{messages[result]}</Text>
         <TouchableOpacity style={GameOverModalStyles.button} onPress={onClose}>
-          <Text style={GameOverModalStyles.buttonText}>Voltar ao início</Text>
+          <Text style={GameOverModalStyles.buttonText}>Jogar Novamente</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={GameOverModalStyles.button} onPress={() => navigation.navigate("HomeTabs")}>
+          <Text style={GameOverModalStyles.buttonText}>Voltar a Home</Text>
         </TouchableOpacity>
       </View>
     </View>
