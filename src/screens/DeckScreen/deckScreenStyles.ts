@@ -8,7 +8,7 @@ export const deckScreenStyles = StyleSheet.create({
   container: {
     paddingVertical: 32,
     alignItems: "center",
-    backgroundColor: "#0a0a0a",
+    backgroundColor: "#48CAE4",
     minHeight: "100%",
   },
   title: {
