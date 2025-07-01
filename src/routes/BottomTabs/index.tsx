@@ -2,14 +2,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TelaInicial } from '../../screens/TelaInicial';
 import { DeckScreen } from '../../screens/DeckScreen/DeckScreen';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Dimensions } from 'react-native';
 
 export type BottomTabs = {
-  TelaInicial: undefined;  
+  TelaInicial: undefined;
   DeckScreen: undefined;
   Perfil: undefined;
 };
 
 const Tab = createBottomTabNavigator<BottomTabs>();
+// para garatir responsividade da barra de navegacao em diferentes telas
+const { height } = Dimensions.get('window');
+// pega a altura da tela do usuario com o dimensions
+const barranav = height > 600 ? 70 : 60;
+// se a altura for maior q 600 a height vai ser 70, caso nao, sera 60.
 
 export const BottomTabsNavigator = () => {
   return (
@@ -21,32 +27,33 @@ export const BottomTabsNavigator = () => {
           bottom: 0,
           left: 0,
           right: 0,
-          height: 100,
+          height: barranav,
         },
       }}
     >
-      <Tab.Screen 
-            name="TelaInicial" 
-            component={TelaInicial}
-            options={{
-              tabBarLabel: 'Início',
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name= "home"
-                color={color} size={size}/>
-              ),
-             
-            }} 
-            />        
-                        
-                    
-      <Tab.Screen name="DeckScreen" 
-      component={DeckScreen}
-      options={{
-        tabBarLabel: 'Deck',
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="cards" color={color} size={size} />
-        ),
-      }}
+
+      <Tab.Screen
+        name="TelaInicial"
+        component={TelaInicial}
+        options={{
+          tabBarLabel: 'Início',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home"
+              color={color} size={size} />
+          ),
+
+        }}
+      />
+
+
+      <Tab.Screen name="DeckScreen"
+        component={DeckScreen}
+        options={{
+          tabBarLabel: 'Deck',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="cards" color={color} size={size} />
+          ),
+        }}
       />
 
     </Tab.Navigator>
