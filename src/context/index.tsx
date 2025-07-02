@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useState } from "react";
+import AsyncService from ".././services/Async"
 
 type Tema = "claro" | "escuro"
 
@@ -16,17 +17,14 @@ export const TemaProvider = ({ children }: TemaProviderProps) => {
     const [tema, setTema] = useState<Tema>("claro")
 
     const alternarTema = () => {
-        setTema((temaAnterior) => (temaAnterior === "claro" ? "escuro" : "claro"))
+        setTema((temaAnterior) => {
+            const novoTema = temaAnterior === "claro" ? "escuro" : "claro"
+            AsyncService.saveData(novoTema)
+            return novoTema
+        })
     }
 
-    const salvarTema = async (valor: Tema) => {
-        try {
-            const json = JSON.stringify(valor)
-            await AsyncStorage.setItem("tema", valor)
-        } catch (erro) {
-            console.log(erro)
-        }
-    }
+    
 
     return (<TemaContexto.Provider value={{ tema, alternarTema }}>
         {children}
@@ -36,4 +34,4 @@ export const TemaProvider = ({ children }: TemaProviderProps) => {
 
 }
 
-export const useTema = () => useContext(TemaContexto)
+export const useTema = () => useContext(TemaContexto)!
