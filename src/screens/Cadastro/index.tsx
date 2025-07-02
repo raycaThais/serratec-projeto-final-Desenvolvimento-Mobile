@@ -3,12 +3,17 @@ import React, { useRef, useState } from "react";
 import { styles } from "./styles";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
-import { postUserItem , getUserItems } from "../../services/LoginApi";
+import { postUserItem, getUserItems } from "../../services/LoginApi";
 import logo from '../../../assets/LogoSemFundo.png';
 import fundo from '../../../assets/apenasFundo.png';
 import { RootStackParamList } from "../../routes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
+import FloatingAnimation from "../../components/FloatingAnimation";
+import { useTema } from "../../context";
+import { ButtonTema } from "../../components/ButtonTema";
+import { ButtonTemaEscuro } from "../../components/ButtonTemaEscuro";
+import fundoEscuro from "../../../assets/ModoNoturno.png"
 
 export const Cadastro = () => {
 
@@ -34,7 +39,8 @@ export const Cadastro = () => {
   }
   const senhaRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
-
+  const { tema } = useTema()
+  const isEscuro = tema === "escuro";
 
 
   const botaoCadastrar = async () => {
@@ -81,17 +87,23 @@ export const Cadastro = () => {
 
   return (
     <>
-      <ImageBackground source={fundo} style={styles.fundoImg}>
+      <ImageBackground source={isEscuro ? fundoEscuro : fundo} style={styles.fundoImg}>
         <KeyboardAvoidingView
           behavior="height"
           style={{ flex: 1 }}
         >
+          <View>
+            <ButtonTema />
+          </View>
+
           <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
             keyboardShouldPersistTaps="handled"
           >
             <View style={styles.container}>
-              <Image source={logo} style={styles.logo} />
+              <FloatingAnimation duration={4000} distance={5} rotationAmount={3}>
+                <Image source={logo} style={styles.logo} />
+              </FloatingAnimation>
               <View style={styles.cadastro}>
                 <Text style={styles.title}>Cadastre-se</Text>
                 {mostraAlertaNome && <Text style={{ color: 'red', fontWeight: 'bold' }}>Nome em branco</Text>}
@@ -120,10 +132,14 @@ export const Cadastro = () => {
                   ref={senhaRef}
                   returnKeyType="go"
                   onSubmitEditing={botaoCadastrar}
-                  autoCapitalize="none"                  
+                  autoCapitalize="none"
                   placeholderTextColor="#000"
                 />
-                <Button onPress={botaoCadastrar} nome={"Cadastrar"} />
+                {isEscuro ? (
+                  <ButtonTemaEscuro onPress={botaoCadastrar} nome={"Entrar"} />
+                ) : (
+                  <Button onPress={botaoCadastrar} nome={"Entrar"} />
+                )}
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Login")}>
                   <Text style={styles.texto}>
@@ -134,7 +150,7 @@ export const Cadastro = () => {
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
-      </ImageBackground>
+      </ImageBackground >
     </>
   )
 }

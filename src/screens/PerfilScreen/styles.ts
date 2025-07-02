@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
-  fundoImg: { 
+  fundoImg: {
     flex: 1,
     resizeMode: "cover",
-  },  
+  },
   container: {
     flex: 1,
     padding: 16,
     justifyContent: 'center',
-    alignItems: 'center',    
+    alignItems: 'center',
   },
   foto: {
     width: 150,
@@ -26,10 +26,9 @@ export const styles = StyleSheet.create({
   },
   nome: {
     fontWeight: 'bold',
-    fontSize: 20,    
+    fontSize: 20,
   },
-
-  button: {       
+  button: {
     alignItems: 'center',
     marginTop: 40,
   },

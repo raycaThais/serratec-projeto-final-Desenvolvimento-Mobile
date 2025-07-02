@@ -12,6 +12,8 @@ import AsyncService from "../../services/Async";
 import { ButtonTema } from "../../components/ButtonTema";
 import { useTema } from "../../context";
 import fundoEscuro from "../../../assets/ModoNoturno.png"
+import { ButtonTemaEscuro } from "../../components/ButtonTemaEscuro";
+import FloatingAnimation from "../../components/FloatingAnimation";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
 export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp }) => {
@@ -23,8 +25,8 @@ export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp })
 
   const senhaRef = useRef<TextInput>(null);
 
-    const {tema} = useTema()
-    const isEscuro = tema === "escuro";
+  const { tema } = useTema()
+  const isEscuro = tema === "escuro";
 
 
   const validarLogin = async () => {
@@ -55,7 +57,7 @@ export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp })
 
   return (
     <>
-      <ImageBackground source={isEscuro?fundoEscuro: fundo} style={styles.fundoImg}>
+      <ImageBackground source={isEscuro ? fundoEscuro : fundo} style={styles.fundoImg}>
         <KeyboardAvoidingView
           behavior="height"
           style={{ flex: 1 }}
@@ -66,11 +68,13 @@ export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp })
           >
             <View style={styles.container}>
 
-              <View> 
+              <View>
                 <ButtonTema />
               </View>
 
-              <Image source={logo} style={styles.logo} />
+              <FloatingAnimation duration={4000} distance={5} rotationAmount={3}>
+                <Image source={logo} style={styles.logo} />
+              </FloatingAnimation>
               <View style={styles.login}>
                 <Text style={styles.titulo}>Login</Text>
                 <Input value={email}
@@ -92,7 +96,13 @@ export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp })
                   onSubmitEditing={validarLogin}
                   placeholderTextColor="#000"
                 />
-                <Button onPress={validarLogin} nome={"Entrar"} />
+
+                {isEscuro ? (
+                  <ButtonTemaEscuro onPress={validarLogin} nome={"Entrar"} />
+                ) : (
+                  <Button onPress={validarLogin} nome={"Entrar"} />
+                )}
+                {/* condicional para o botao, caso o tema escuro seja true ele joga p botao escuro, caso nao, pro botao padrao */}
                 <TouchableOpacity
                   onPress={() => navigation.navigate("Cadastro")}>
                   <Text style={styles.texto}>
