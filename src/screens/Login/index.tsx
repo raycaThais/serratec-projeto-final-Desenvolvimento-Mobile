@@ -14,19 +14,17 @@ import { useTema } from "../../context";
 import fundoEscuro from "../../../assets/ModoNoturno.png"
 import { ButtonTemaEscuro } from "../../components/ButtonTemaEscuro";
 import FloatingAnimation from "../../components/FloatingAnimation";
+import { Ionicons } from '@expo/vector-icons'
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
 export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp }) => {
-
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
-
   const [usuarios, setUsuarios] = useState<UserItemProps[]>([]);
-
   const senhaRef = useRef<TextInput>(null);
-
   const { tema } = useTema()
   const isEscuro = tema === "escuro";
+  const [mostrarSenha, setMostrarSenha] =useState<boolean>(false)
 
 
   const validarLogin = async () => {
@@ -86,16 +84,23 @@ export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp })
                   onSubmitEditing={() => senhaRef.current?.focus()}
                   placeholderTextColor="#000"
                 />
+                {/* <View style={styles.inputSenhaContainer}> */}
                 <Input value={senha}
                   ref={senhaRef}
                   onChangeText={setSenha}
                   autoCapitalize="none"
                   placeholder="Senha"
-                  secureTextEntry
+                  secureTextEntry = {mostrarSenha}
                   returnKeyType="go"
                   onSubmitEditing={validarLogin}
                   placeholderTextColor="#000"
                 />
+                <View style={styles.verSenha}>
+                <TouchableOpacity onPress={() => mostrarSenha? setMostrarSenha(false): setMostrarSenha(true)} >
+              {mostrarSenha? <Ionicons name="eye-outline" size={15} /> : <Ionicons name= "eye-off-outline" size={15}/>}
+                </TouchableOpacity>
+                </View>
+                {/* </View> */}
 
                 {isEscuro ? (
                   <ButtonTemaEscuro onPress={validarLogin} nome={"Entrar"} />

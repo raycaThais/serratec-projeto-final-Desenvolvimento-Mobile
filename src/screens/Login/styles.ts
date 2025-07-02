@@ -42,5 +42,14 @@ texto: {
   marginTop: 24,
   fontSize: 20,
   color: '#000'
+},
+inputSenhaContainer: {
+  flexDirection:"row",
+
+},
+verSenha: {
+  position:"absolute",
+ top:178,
+ right:70
 }
 })
