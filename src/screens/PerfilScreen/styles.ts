@@ -32,4 +32,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 40,
   },
+  nomeEscuro: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color:"#fff"
+  },
+  emailEscuro: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color:"#fff"
+  },
+
 });

@@ -6,6 +6,8 @@ import { CharacterCard } from '../../components/CharacterCard/CharacterCard';
 import { onePieceCharacters, getCharacterAttributes } from '../../data/OnePieceCharacters';
 import { deckScreenStyles as styles } from './deckScreenStyles';
 import { fetchAllCharacterDetails, CharacterData } from '../../services/JikanApi';
+import { useTema } from '../../context';
+import { ButtonTema } from '../../components/ButtonTema';
 
 const MINI_CARD_WIDTH = 110;
 const MINI_CARD_HEIGHT = 145;
@@ -13,6 +15,8 @@ const MINI_CARD_HEIGHT = 145;
 type CharacterDisplayData = CharacterData & { group: string };
 
 export const DeckScreen: React.FC = () => {
+  const { tema } = useTema()
+  const isEscuro = tema === "escuro";
   const [charactersData, setCharactersData] = useState<Record<number, CharacterDisplayData>>({});
   const [loading, setLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState<{
@@ -88,22 +92,27 @@ export const DeckScreen: React.FC = () => {
 
   if (selectedCard) {
     return (
-      <View style={ styles.characterCardContainer }>
-        <TouchableOpacity style={ styles.backButton } onPress={ () => setSelectedCard(null) }>
-          <Text style={ styles.backButtonText }>← Voltar</Text>
+      <View style={styles.characterCardContainer}>
+
+        <TouchableOpacity style={styles.backButton} onPress={() => setSelectedCard(null)}>
+          <Text style={styles.backButtonText}>← Voltar</Text>
         </TouchableOpacity>
 
-        <View style={ styles.characterCardWrapper }>
+        <View>
+          <ButtonTema /> {/*verificar depois*/}
+        </View>
+
+        <View style={styles.characterCardWrapper}>
           <CharacterCard
-            name={ selectedCard.character.name }
-            imageUrl={ selectedCard.character.imageUrl }
-            group={ selectedCard.character.group }
-            forca={ selectedCard.attributes?.forca }
-            velocidade={ selectedCard.attributes?.velocidade }
-            resistencia={ selectedCard.attributes?.resistencia }
-            inteligencia={ selectedCard.attributes?.inteligencia }
-            haki={ selectedCard.attributes?.haki }
-            recompensa={ selectedCard.attributes?.recompensa }
+            name={selectedCard.character.name}
+            imageUrl={selectedCard.character.imageUrl}
+            group={selectedCard.character.group}
+            forca={selectedCard.attributes?.forca}
+            velocidade={selectedCard.attributes?.velocidade}
+            resistencia={selectedCard.attributes?.resistencia}
+            inteligencia={selectedCard.attributes?.inteligencia}
+            haki={selectedCard.attributes?.haki}
+            recompensa={selectedCard.attributes?.recompensa}
           />
         </View>
       </View>
@@ -112,39 +121,39 @@ export const DeckScreen: React.FC = () => {
 
   return (
     <LinearGradient
-      colors={ ['#87CEEB', '#B0E0E6', '#E0F6FF'] } // ✅ Gradiente azul suave
-      style={ { flex: 1 } }
+      colors={['#87CEEB', '#B0E0E6', '#E0F6FF']} // ✅ Gradiente azul suave
+      style={{ flex: 1 }}
     >
-      <ScrollView contentContainerStyle={ styles.container }>
-        <Text style={ styles.title }>Baralho</Text>
-        { loading ? (
-          <ActivityIndicator size="large" color="#facc15" style={ { marginTop: 40 } } />
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Baralho</Text>
+        {loading ? (
+          <ActivityIndicator size="large" color="#facc15" style={{ marginTop: 40 }} />
         ) : (
           Object.keys(grouped).map((groupKey) => (
-            <View key={ groupKey } style={ styles.groupSection }>
-              <Text style={ styles.groupTitle }>{ groupTitles[groupKey] }</Text>
-              <View style={ styles.grid }>
-                { grouped[groupKey].map((char) => (
+            <View key={groupKey} style={styles.groupSection}>
+              <Text style={styles.groupTitle}>{groupTitles[groupKey]}</Text>
+              <View style={styles.grid}>
+                {grouped[groupKey].map((char) => (
                   <TouchableOpacity
-                    key={ char.malId }
-                    style={ styles.cardWrapper }
-                    activeOpacity={ 0.85 }
-                    onPress={ () => handleCardPress(char) }
+                    key={char.malId}
+                    style={styles.cardWrapper}
+                    activeOpacity={0.85}
+                    onPress={() => handleCardPress(char)}
                   >
                     <MiniCharacterCard
-                      group={ groupKey as any }
-                      name={ getDisplayName(charactersData[char.malId]?.name || '') }
-                      imageUrl={ charactersData[char.malId]?.imageUrl }
-                      borderColor={ getBorderColor(groupKey) }
-                      cardWidth={ MINI_CARD_WIDTH }
-                      cardHeight={ MINI_CARD_HEIGHT }
+                      group={groupKey as any}
+                      name={getDisplayName(charactersData[char.malId]?.name || '')}
+                      imageUrl={charactersData[char.malId]?.imageUrl}
+                      borderColor={getBorderColor(groupKey)}
+                      cardWidth={MINI_CARD_WIDTH}
+                      cardHeight={MINI_CARD_HEIGHT}
                     />
                   </TouchableOpacity>
-                )) }
+                ))}
               </View>
             </View>
           ))
-        ) }
+        )}
       </ScrollView>
     </LinearGradient>
   );

@@ -23,7 +23,9 @@ export const TelaInicial = ({ navigation }: { navigation: TelaInicialScreenNavig
 
   return (
     <>
-
+      <View>
+        <ButtonTema />
+      </View>
       <ImageBackground source={isEscuro ? fundoEscuro : fundo} style={styles.container}>
         <FloatingAnimation duration={4000} distance={5} rotationAmount={3}>
           <Image style={styles.image} source={require("../../../assets/LogoSemFundo.png")} />
@@ -105,9 +107,7 @@ export const TelaInicial = ({ navigation }: { navigation: TelaInicialScreenNavig
           }
 
         />
-        <View>
-          <ButtonTema />
-        </View>
+
       </ImageBackground >
     </>
   )

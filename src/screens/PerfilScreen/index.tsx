@@ -18,6 +18,8 @@ type PerfilScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 
 
 export const PerfilScreen = ({ navigation }: { navigation: PerfilScreenNavigationProp }) => {
   const [usuarios, setUsuarios] = useState<any>(null);
+  const { tema } = useTema()
+  const isEscuro = tema === "escuro";
 
   useEffect(() => {
     const carregarUsuario = async () => {
@@ -30,8 +32,7 @@ export const PerfilScreen = ({ navigation }: { navigation: PerfilScreenNavigatio
 
   if (!usuarios) return <Text>Carregando...</Text>;
 
-  const { tema } = useTema()
-  const isEscuro = tema === "escuro";
+
 
   return (
     <ImageBackground source={isEscuro ? fundoEscuro : fundo} style={styles.fundoImg}>
@@ -46,16 +47,15 @@ export const PerfilScreen = ({ navigation }: { navigation: PerfilScreenNavigatio
 
         <View style={styles.perfil}>
 
-          {/* add condicional para troca de cor do icone e da fonte */}
 
-          <Text style={styles.nome}>
+          <Text style={isEscuro? styles.nomeEscuro: styles.nome}>
             <MaterialCommunityIcons name="account"
-              color={"white"} size={24} />
+              color={isEscuro? "white": "black"} size={24} />
             : {usuarios.nome}
           </Text>
-          <Text style={styles.email}>
+          <Text style={isEscuro? styles.emailEscuro: styles.email}>
             <MaterialCommunityIcons name="email"
-              color={"white"} size={24} />
+              color={isEscuro? "white": "black"} size={24} />
             : {usuarios.email}
           </Text>
 

@@ -4,6 +4,7 @@ import { DeckScreen } from '../../screens/DeckScreen/DeckScreen';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native';
 import { PerfilScreen } from '../../screens/PerfilScreen';
+import { useTema } from '../../context';
 
 export type BottomTabs = {
   TelaInicial: undefined;
@@ -19,6 +20,9 @@ const barranav = height > 600 ? 70 : 60;
 // se a altura for maior q 600 a height vai ser 70, caso nao, sera 60.
 
 export const BottomTabsNavigator = () => {
+  const { tema } = useTema()
+  const isEscuro = tema === "escuro";
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -29,7 +33,10 @@ export const BottomTabsNavigator = () => {
           left: 0,
           right: 0,
           height: barranav,
+          backgroundColor: (isEscuro? "#4b433c": "#fff")
         },
+        tabBarInactiveTintColor: (isEscuro?"#eee8e7" : "#aaa"),
+          tabBarActiveTintColor: 'black'
       }}
     >
 
