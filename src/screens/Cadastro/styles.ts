@@ -3,26 +3,39 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
 
     container:{
-        flex: 1
+        // flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: 20,
     },
 
     cadastro:{
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'center',        
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: 16,
+        padding: 24,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 6,
+        marginTop: 70,
     },
 
     title:{
         color: '#000',
         fontSize: 40,
-        fontWeight: 'bold',
-        marginVertical: 90,
+        fontWeight: 'bold',        
         textAlign: 'center',
         marginBottom: 20
     },
 
     texto:{
-        fontWeight: 'bold',
+        fontWeight: '400',
         textDecorationLine: 'underline',
+        fontSize: 20,
+        color: '#000',
+        marginTop: 24,
+
     },
 
     fundoImg:{

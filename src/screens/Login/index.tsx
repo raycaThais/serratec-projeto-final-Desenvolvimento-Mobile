@@ -8,6 +8,7 @@ import logo from '../../../assets/LogoSemFundo.png'
 import fundo from '../../../assets/apenasFundo.png'
 import  { RootStackParamList } from "../../routes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import  AsyncService  from "../../services/Async";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
 export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => {
@@ -31,7 +32,8 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
       const usuarioEncontrado = listarUsuarios.find(usuario => usuario.email === email && usuario.senha === senha);
 
       if (usuarioEncontrado) {
-        Alert.alert('Login válido', `Bem vindo, ${usuarioEncontrado.nome}!`) //mudar para o assincronous storage
+        await AsyncService.saveData(usuarioEncontrado);
+        Alert.alert('Login válido', `Bem vindo, ${usuarioEncontrado.nome}!`)
         setEmail("");
         setSenha("");
         navigation.navigate("HomeTabs");
@@ -65,7 +67,7 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
             onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address" 
-            placeholder="email"
+            placeholder="Email"
             returnKeyType="next"
             onSubmitEditing={() => senhaRef.current?.focus()} 
             placeholderTextColor="#000" 
@@ -74,7 +76,7 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
             ref={senhaRef}
              onChangeText={setSenha}
              autoCapitalize="none"  
-             placeholder="password"  
+             placeholder="Senha"  
              secureTextEntry
              returnKeyType="go"
              onSubmitEditing={validarLogin}
