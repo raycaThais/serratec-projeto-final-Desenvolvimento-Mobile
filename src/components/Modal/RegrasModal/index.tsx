@@ -2,6 +2,7 @@ import { Modal, View, TouchableOpacity, Text } from "react-native";
 import { styles } from "./styles";
 import { ReactNode } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTema } from "../../../context";
 
 interface RegrasModalProps {
     IsRegrasModalOpen: boolean,
@@ -10,6 +11,8 @@ interface RegrasModalProps {
 }
 
 export const RegrasModal = ({ IsRegrasModalOpen, setIsRegrasModalOpen, children }: RegrasModalProps) => {
+    const { tema } = useTema()
+    const isEscuro = tema === "escuro";
     return (
         <Modal
             animationType="fade"
@@ -21,7 +24,7 @@ export const RegrasModal = ({ IsRegrasModalOpen, setIsRegrasModalOpen, children 
         >
             <View style={styles.modalBackground}>
                 <LinearGradient
-                    colors={["#f8c007", "#bd6a26"]}
+                    colors={isEscuro?["#adadab", "#2C2C2C"] : ["#f8c007", "#bd6a26"]}
                     style={styles.containermodal}
                 >
                     <TouchableOpacity

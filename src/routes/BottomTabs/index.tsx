@@ -33,7 +33,7 @@ export const BottomTabsNavigator = () => {
           left: 0,
           right: 0,
           height: barranav,
-          backgroundColor: (isEscuro? "#4b433c": "#fff")
+          backgroundColor: (isEscuro? "#2C2C2C": "#fff")
         },
         tabBarInactiveTintColor: (isEscuro?"#eee8e7" : "#aaa"),
           tabBarActiveTintColor: 'black'

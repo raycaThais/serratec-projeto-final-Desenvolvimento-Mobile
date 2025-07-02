@@ -11,6 +11,7 @@ import type { OnePieceCharacter } from '../../data/OnePieceCharacters';
 import { fetchAllCharacterDetails, CharacterData } from '../../services/JikanApi';
 import { RootStackParamList } from '../../routes';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTema } from '../../context';
 
 type GameScreenScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "GameScreen">;
 
@@ -20,11 +21,13 @@ type Card = OnePieceCharacter & CharacterData;
 const CARD_WIDTH = 180;
 const CARD_HEIGHT = 250;
 
-const GameScreen = ({navigation}: {navigation: GameScreenScreenNavigationProp}) => {
+const GameScreen = ({ navigation }: { navigation: GameScreenScreenNavigationProp }) => {
   // --- Estados do Componente ---
   const [characterDetails, setCharacterDetails] = useState<Record<number, CharacterData>>({});
   const [loading, setLoading] = useState(true);
   const [cardToExpand, setCardToExpand] = useState<Card | null>(null);
+  const { tema } = useTema()
+  const isEscuro = tema === "escuro";
 
   // --- Uso do Hook de Lógica ---
   const {
@@ -74,7 +77,7 @@ const GameScreen = ({navigation}: {navigation: GameScreenScreenNavigationProp}) 
 
   if (loading) {
     return (
-      <View style={ styles.centered }>
+      <View style={isEscuro? styles.centeredEscuro: styles.centered}>
         <ActivityIndicator size="large" color="#facc15" />
       </View>
     );
@@ -85,79 +88,79 @@ const GameScreen = ({navigation}: {navigation: GameScreenScreenNavigationProp}) 
   const isResultPhase = !!vencedorRodada;
 
   return (
-    <SafeAreaView style={ styles.container }>
-      { !cardToExpand ? (
+    <SafeAreaView style={isEscuro? styles.containerEscuro  :styles.container}>
+      {!cardToExpand ? (
         <>
-          {/* Placar */ }
-          <View style={ styles.scoreContainer }>
-            <Text style={ styles.scoreText }>Você: { placarJogador }</Text>
-            <Text style={ styles.scoreText }>Bot: { placarBot }</Text>
+          {/* Placar */}
+          <View style={styles.scoreContainer}>
+            <Text style={styles.scoreText}>Você: {placarJogador}</Text>
+            <Text style={styles.scoreText}>Bot: {placarBot}</Text>
           </View>
 
-          {/* Campo de Batalha */ }
-          <View style={ styles.battlefield }>
-            {/* Lado do Bot */ }
-            <View style={ styles.playerSide }>
-              <Text style={ styles.playerName }>Bot</Text>
-              <View style={ styles.cardWrapper }>
-                { atributoDisputado && botCardWithDetails ? (
+          {/* Campo de Batalha */}
+          <View style={styles.battlefield}>
+            {/* Lado do Bot */}
+            <View style={styles.playerSide}>
+              <Text style={styles.playerName}>Bot</Text>
+              <View style={styles.cardWrapper}>
+                {atributoDisputado && botCardWithDetails ? (
                   <MiniCharacterCard
-                    { ...botCardWithDetails }
-                    atributoDestacado={ atributoDisputado }
-                    cardWidth={ CARD_WIDTH }
-                    cardHeight={ CARD_HEIGHT }
+                    {...botCardWithDetails}
+                    atributoDestacado={atributoDisputado}
+                    cardWidth={CARD_WIDTH}
+                    cardHeight={CARD_HEIGHT}
                   />
                 ) : (
                   <CardBack />
-                ) }
+                )}
               </View>
             </View>
-            {/* Lado do Jogador */ }
-            <View style={ styles.playerSide }>
-              <Text style={ styles.playerName }>Você</Text>
+            {/* Lado do Jogador */}
+            <View style={styles.playerSide}>
+              <Text style={styles.playerName}>Você</Text>
               <TouchableOpacity
-                style={ styles.cardWrapper }
-                onPress={ () => playerCardWithDetails && setCardToExpand(playerCardWithDetails) }
-                disabled={ turno !== 'jogador' || isResultPhase }
+                style={styles.cardWrapper}
+                onPress={() => playerCardWithDetails && setCardToExpand(playerCardWithDetails)}
+                disabled={turno !== 'jogador' || isResultPhase}
               >
-                { playerCardWithDetails && (
+                {playerCardWithDetails && (
                   <MiniCharacterCard
-                    { ...playerCardWithDetails }
-                    atributoDestacado={ atributoDisputado }
-                    cardWidth={ CARD_WIDTH }
-                    cardHeight={ CARD_HEIGHT }
+                    {...playerCardWithDetails}
+                    atributoDestacado={atributoDisputado}
+                    cardWidth={CARD_WIDTH}
+                    cardHeight={CARD_HEIGHT}
                   />
-                ) }
+                )}
               </TouchableOpacity>
             </View>
           </View>
 
-          {/* Status e Ações */ }
-          <View style={ styles.statusContainer }>
-            <Text style={ styles.statusText }>{ resultado }</Text>
-            { isResultPhase && !jogoFinalizado && (
-              <TouchableOpacity style={ styles.confirmButton } onPress={ avancarParaProximaRodada }>
-                <Text style={ styles.confirmButtonText }>Próxima Rodada</Text>
+          {/* Status e Ações */}
+          <View style={styles.statusContainer}>
+            <Text style={styles.statusText}>{resultado}</Text>
+            {isResultPhase && !jogoFinalizado && (
+              <TouchableOpacity style={styles.confirmButton} onPress={avancarParaProximaRodada}>
+                <Text style={styles.confirmButtonText}>Próxima Rodada</Text>
               </TouchableOpacity>
-            ) }
+            )}
           </View>
         </>
       ) : (
         // Modal de carta expandida
         <ExpandableCardOverlay
-          visible={ !!cardToExpand }
-          card={ cardToExpand! }
-          onSelectAttribute={ handleSelectAttribute as (attr: string) => void }
-          onClose={ () => setCardToExpand(null) }
+          visible={!!cardToExpand}
+          card={cardToExpand!}
+          onSelectAttribute={handleSelectAttribute as (attr: string) => void}
+          onClose={() => setCardToExpand(null)}
         />
-      ) }
+      )}
 
-      {/* Modal de Fim de Jogo */ }
+      {/* Modal de Fim de Jogo */}
       <GameOverModal
-        visible={ jogoFinalizado }
-        result={ placarJogador > placarBot ? 'win' : 'lose' }
-        onClose={ iniciarPartida }
-        navigation={ navigation } // Navega para a tela inicial
+        visible={jogoFinalizado}
+        result={placarJogador > placarBot ? 'win' : 'lose'}
+        onClose={iniciarPartida}
+        navigation={navigation} // Navega para a tela inicial
       />
     </SafeAreaView>
   );

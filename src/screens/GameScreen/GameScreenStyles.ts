@@ -8,11 +8,21 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#48CAE4",
   },
+  containerEscuro: {
+    flex: 1,
+    backgroundColor: "#020d39"
+  },
   centered: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#48CAE4",
+  },
+  centeredEscuro: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#020d39",
   },
   scoreContainer: {
     flexDirection: "row",
@@ -71,10 +81,5 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "uppercase",
   },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#48CAE4",
-  },
+  
 });

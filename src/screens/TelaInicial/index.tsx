@@ -7,7 +7,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import FloatingAnimation from "../../components/FloatingAnimation";
 import { RootStackParamList } from "../../routes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ButtonStart } from "../../components/Button Start";
+import { ButtonStart } from "../../components/ButtonStart";
 import fundoEscuro from "../../../assets/ModoNoturno.png";
 import fundo from '../../../assets/apenasFundo.png';
 import { useTema } from "../../context";
@@ -34,9 +34,9 @@ export const TelaInicial = ({ navigation }: { navigation: TelaInicialScreenNavig
         <View style={styles.btComojogar}>
           <TouchableOpacity style={styles.duvidas} onPress={() => setIsRegrasModalOpen(true)}>
             <LinearGradient
-              colors={["#f8c007", "#bd6a26"]}
+              colors={isEscuro? ["#1E1E1E", "#2C2C2C"] : ["#f8c007", "#bd6a26"]}
               style={styles.gradient}>
-              <Text>❓</Text>
+              {isEscuro? <Text>❔</Text> : <Text>❓</Text>}
             </LinearGradient>
           </TouchableOpacity>
         </View>
