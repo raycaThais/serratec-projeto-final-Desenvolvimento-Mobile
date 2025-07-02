@@ -24,11 +24,21 @@ const GameOverModal: React.FC<GameOverModalProps> = ({ visible, result, onClose,
     <View style={GameOverModalStyles.overlay}>
       <View style={GameOverModalStyles.modal}>
         <Text style={GameOverModalStyles.title}>{messages[result]}</Text>
-        <TouchableOpacity style={GameOverModalStyles.button} onPress={onClose}>
-          <Text style={GameOverModalStyles.buttonText}>Jogar Novamente</Text>
+        <TouchableOpacity
+          style={[GameOverModalStyles.button, GameOverModalStyles.primaryButton]}
+          onPress={onClose}
+        >
+          <Text style={GameOverModalStyles.buttonText} numberOfLines={1}>
+            Jogar Novamente
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={GameOverModalStyles.button} onPress={() => navigation.navigate("HomeTabs")}>
-          <Text style={GameOverModalStyles.buttonText}>Voltar a Home</Text>
+        <TouchableOpacity
+          style={[GameOverModalStyles.button, GameOverModalStyles.secondaryButton]}
+          onPress={() => navigation.navigate("HomeTabs")}
+        >
+          <Text style={GameOverModalStyles.buttonText} numberOfLines={1}>
+            Voltar a Home
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
