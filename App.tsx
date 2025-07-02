@@ -1,4 +1,5 @@
-
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 import React from 'react';
 import { Routes } from "./src/routes";
 import { TemaProvider } from "./src/context";

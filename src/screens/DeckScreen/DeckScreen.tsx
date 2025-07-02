@@ -98,10 +98,6 @@ export const DeckScreen: React.FC = () => {
           <Text style={styles.backButtonText}>← Voltar</Text>
         </TouchableOpacity>
 
-        <View>
-          <ButtonTema /> {/*verificar depois*/}
-        </View>
-
         <View style={styles.characterCardWrapper}>
           <CharacterCard
             name={selectedCard.character.name}
@@ -121,17 +117,18 @@ export const DeckScreen: React.FC = () => {
 
   return (
     <LinearGradient
-      colors={['#87CEEB', '#B0E0E6', '#E0F6FF']} // ✅ Gradiente azul suave
+      colors={isEscuro? ["#020d39", "#033e9c", "#b0c5e6"] :['#87CEEB', '#B0E0E6', '#E0F6FF']} // ✅ Gradiente azul suave
       style={{ flex: 1 }}
     >
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>Baralho</Text>
+        <Text style={isEscuro? styles.titleEscuro : styles.title}>Baralho</Text>
+        
         {loading ? (
           <ActivityIndicator size="large" color="#facc15" style={{ marginTop: 40 }} />
         ) : (
           Object.keys(grouped).map((groupKey) => (
             <View key={groupKey} style={styles.groupSection}>
-              <Text style={styles.groupTitle}>{groupTitles[groupKey]}</Text>
+              <Text style={isEscuro? styles.groupTitleEscuro :styles.groupTitle}>{groupTitles[groupKey]}</Text>
               <View style={styles.grid}>
                 {grouped[groupKey].map((char) => (
                   <TouchableOpacity
@@ -141,7 +138,6 @@ export const DeckScreen: React.FC = () => {
                     onPress={() => handleCardPress(char)}
                   >
                     <MiniCharacterCard
-                      group={groupKey as any}
                       name={getDisplayName(charactersData[char.malId]?.name || '')}
                       imageUrl={charactersData[char.malId]?.imageUrl}
                       borderColor={getBorderColor(groupKey)}

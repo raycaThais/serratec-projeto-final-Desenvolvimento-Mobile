@@ -8,10 +8,18 @@ export const deckScreenStyles = StyleSheet.create({
   container: {
     paddingVertical: 32,
     alignItems: "center",
-    backgroundColor: "#48CAE4",
     minHeight: "100%",
   },
+
   title: {
+    color: "black",
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 24,
+    letterSpacing: 1,
+  },
+
+  titleEscuro: {
     color: "#fff",
     fontSize: 28,
     fontWeight: "bold",
@@ -25,6 +33,14 @@ export const deckScreenStyles = StyleSheet.create({
     marginBottom: 32,
   },
   groupTitle: {
+    color: "black",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 12,
+    marginLeft: 8,
+    letterSpacing: 0.5,
+  },
+  groupTitleEscuro: {
     color: "#fff",
     fontSize: 20,
     fontWeight: "bold",

@@ -57,49 +57,51 @@ export const TelaInicial = ({ navigation }: { navigation: TelaInicialScreenNavig
             <View style={styles.containermodal}>
 
               <ScrollView style={styles.caixaScroll}>
-                <View style={styles.secoesduvidas}>
-                  <Text style={styles.titulo}>🎴 Objetivo do Jogo</Text>
+               <View style={styles.secoesduvidas}>
+                  <Text style={styles.titulo}>🎯 Objetivo do Jogo</Text>
                   <Text style={styles.textosecaoduvidas}>
-                    ‣ Ser o jogador com mais cartas acumuladas ao decorrer do jogo
+                    ‣ Ser o primeiro jogador a conquistar 5 pontos vencendo rodadas contra o bot
                   </Text>
                 </View>
 
                 <View style={styles.secoesduvidas}>
-                  <Text style={styles.titulo}>👥 Número de Jogadores</Text>
+                  <Text style={styles.titulo}>⚔️ Quem Participa</Text>
                   <Text style={styles.textosecaoduvidas}>
-                    ‣ 2 jogadores</Text>
+                    ‣ Você vs nosso Bot</Text>
                 </View>
 
                 <View style={styles.secoesduvidas}>
                   <Text style={styles.titulo}>🃏 Preparação</Text>
                   <Text style={styles.textosecaoduvidas}>
-                    ‣ Todas as cartas são embaralhadas e distribuídas igualmente entre os dois jogadores.{"\n"}
-                    ‣ Você e o bot/jogador* recebem 5 cartas cada um.{"\n"}
-                    ‣ Cada jogador mantém seu monte virado para baixo e não olha suas cartas.</Text>
+                    ‣ Todas as cartas são embaralhadas e distribuídas igualmente entre você e o bot.{"\n"}
+                    ‣ Você e o bot recebem 5 cartas cada um.{"\n"}
+                    ‣ O jogo dura até 5 rodadas ou até alguém conquistar 5 pontos.{"\n"}
+                    ‣ Você sempre começa jogando na primeira rodada.
+                  </Text>
                 </View>
 
                 <View style={styles.secoesduvidas}>
                   <Text style={styles.titulo}>🔁 Como Jogar</Text>
                   <Text style={styles.textosecaoduvidas}>
-                    ‣ O jogador da vez revela a primeira carta do seu monte.{"\n"}
-                    ‣ O jogador da vez escolhe um atributo da carta (ex: força, velocidade, resistencia, etc.).{"\n"}
-                    ‣ O outro jogador também revela sua carta e compara o mesmo atributo.{"\n"}
-                    ‣ Quem tiver o maior valor no atributo vence a rodada e pega as duas cartas, colocando-as no seu monte de cartas ganhadas.{"\n"}
-                    ‣ O vencedor da rodada será o próximo a escolher o atributo.</Text>
+                    ‣ Na sua vez: vire sua primeira carta e escolha um atributo (força, velocidade, etc.).{"\n"}
+                    ‣ O bot revela sua carta e compara o mesmo atributo.{"\n"}
+                    ‣ Quem tiver o maior valor vence a rodada e ganha 1 ponto.{"\n"}
+                    ‣ O vencedor da rodada joga primeiro na próxima rodada.{"\n"}
+                    ‣ Em caso de empate, ninguém pontua e uma nova rodada é iniciada com cartas diferentes.{"\n"}
+                    ‣ Na vez do bot: ele escolhe automaticamente seu melhor atributo.
+                  </Text>
                 </View>
 
                 <View style={styles.secoesduvidas}>
                   <Text style={styles.titulo}>⭐ Carta Super Trunfo</Text>
                   <Text style={styles.textosecaoduvidas}>
-                    ‣ Se um jogador usar a carta "Super Trunfo", ela vence automaticamente a rodada, independente do atributo escolhido.{"\n"}
-                  </Text>
+                    ‣ Se você ou o bot ganharem a carta "Super Trunfo", ela vence automaticamente a rodada, não importa qual atributo seja escolhido.   </Text>
                 </View>
 
                 <View style={styles.secoesduvidas}>
                   <Text style={styles.titulo}>🔚 Fim do Jogo</Text>
                   <Text style={styles.textosecaoduvidas}>
-                    ‣ O jogo termina quando um dos jogadores ficar sem cartas.{"\n"}
-                    ‣ O jogador que tiver acumulado mais cartas no monte de cartas ganhadas, é declarado o vencedor!
+                    ‣ O primeiro jogador a conquistar 5 pontos é declarado o grande campeão!
                   </Text>
                 </View>
               </ScrollView>
