@@ -6,12 +6,15 @@ import { styles } from "./styles";
 import { getUserItems, UserItemProps } from "../../services/LoginApi";
 import logo from '../../../assets/LogoSemFundo.png'
 import fundo from '../../../assets/apenasFundo.png'
-import  { RootStackParamList } from "../../routes";
+import { RootStackParamList } from "../../routes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import  AsyncService  from "../../services/Async";
+import AsyncService from "../../services/Async";
+import { ButtonTema } from "../../components/ButtonTema";
+import { useTema } from "../../context";
+import fundoEscuro from "../../../assets/ModoNoturno.png"
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Login">;
-export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => {
+export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp }) => {
 
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
@@ -20,12 +23,14 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
 
   const senhaRef = useRef<TextInput>(null);
 
- 
+    const {tema} = useTema()
+    const isEscuro = tema === "escuro";
+
 
   const validarLogin = async () => {
     try {
       const response = await getUserItems();
-           
+
       const listarUsuarios = Array.isArray(response.data) ? response.data : [];
       setUsuarios(listarUsuarios);
 
@@ -37,7 +42,7 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
         setEmail("");
         setSenha("");
         navigation.navigate("HomeTabs");
-      }else {
+      } else {
         Alert.alert('Login inválido', 'Usuário ou senha incorretos.');
         setSenha("")
       }
@@ -50,49 +55,54 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
 
   return (
     <>
-      <ImageBackground source={fundo} style={styles.fundoImg}>       
-    <KeyboardAvoidingView
-      behavior= "height"
-      style={{ flex: 1 }}
-    >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View style={styles.container}>
-        <Image source={logo} style={styles.logo} />
-          <View style={styles.login}>
-            <Text style={styles.titulo}>Login</Text>
-            <Input value={email} 
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address" 
-            placeholder="Email"
-            returnKeyType="next"
-            onSubmitEditing={() => senhaRef.current?.focus()} 
-            placeholderTextColor="#000" 
-            />
-            <Input value={senha}
-            ref={senhaRef}
-             onChangeText={setSenha}
-             autoCapitalize="none"  
-             placeholder="Senha"  
-             secureTextEntry
-             returnKeyType="go"
-             onSubmitEditing={validarLogin}
-             placeholderTextColor="#000" 
-             />
-            <Button onPress={validarLogin} nome={"Entrar"} />
-            <TouchableOpacity 
-            onPress={() => navigation.navigate("Cadastro")}>
-              <Text style={styles.texto}>
-                Cadastre-se
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>        
-      </ScrollView>
-    </KeyboardAvoidingView>
+      <ImageBackground source={isEscuro?fundoEscuro: fundo} style={styles.fundoImg}>
+        <KeyboardAvoidingView
+          behavior="height"
+          style={{ flex: 1 }}
+        >
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={styles.container}>
+
+              <View> 
+                <ButtonTema />
+              </View>
+
+              <Image source={logo} style={styles.logo} />
+              <View style={styles.login}>
+                <Text style={styles.titulo}>Login</Text>
+                <Input value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  placeholder="Email"
+                  returnKeyType="next"
+                  onSubmitEditing={() => senhaRef.current?.focus()}
+                  placeholderTextColor="#000"
+                />
+                <Input value={senha}
+                  ref={senhaRef}
+                  onChangeText={setSenha}
+                  autoCapitalize="none"
+                  placeholder="Senha"
+                  secureTextEntry
+                  returnKeyType="go"
+                  onSubmitEditing={validarLogin}
+                  placeholderTextColor="#000"
+                />
+                <Button onPress={validarLogin} nome={"Entrar"} />
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Cadastro")}>
+                  <Text style={styles.texto}>
+                    Cadastre-se
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </ImageBackground>
 
     </>
