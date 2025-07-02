@@ -84,7 +84,7 @@ export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp })
                   onSubmitEditing={() => senhaRef.current?.focus()}
                   placeholderTextColor="#000"
                 />
-                {/* <View style={styles.inputSenhaContainer}> */}
+                
                 <Input value={senha}
                   ref={senhaRef}
                   onChangeText={setSenha}
@@ -100,7 +100,7 @@ export const Login = ({ navigation }: { navigation: LoginScreenNavigationProp })
               {mostrarSenha? <Ionicons name="eye-outline" size={15} /> : <Ionicons name= "eye-off-outline" size={15}/>}
                 </TouchableOpacity>
                 </View>
-                {/* </View> */}
+                
 
                 {isEscuro ? (
                   <ButtonTemaEscuro onPress={validarLogin} nome={"Entrar"} />

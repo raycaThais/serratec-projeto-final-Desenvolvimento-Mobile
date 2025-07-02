@@ -3,8 +3,7 @@ import { StyleSheet, StatusBar } from "react-native";
 export const styles = StyleSheet.create({
 fundoImg:{ 
   flex: 1,
-  resizeMode:"cover"
-  //paddingBottom: 45, //margin nos botões de navegação do celular 
+  resizeMode:"cover"  
 },
 container:{   
   paddingHorizontal: 20,
