@@ -67,7 +67,7 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
             onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address" 
-            placeholder="email"
+            placeholder="Email"
             returnKeyType="next"
             onSubmitEditing={() => senhaRef.current?.focus()} 
             placeholderTextColor="#000" 
@@ -76,7 +76,7 @@ export const Login = ({navigation}: {navigation: LoginScreenNavigationProp}) => 
             ref={senhaRef}
              onChangeText={setSenha}
              autoCapitalize="none"  
-             placeholder="password"  
+             placeholder="Senha"  
              secureTextEntry
              returnKeyType="go"
              onSubmitEditing={validarLogin}
