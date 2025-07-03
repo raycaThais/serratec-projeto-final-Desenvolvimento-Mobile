@@ -134,7 +134,19 @@ Este é um jogo mobile de cartas inspirado no clássico **Super Trunfo**, com pe
 
 ## 📷 Imagens do Aplicativo Desenvolvido
 
+### 🎨 Tema Claro
 
+<p align="center">
+  <img src="./assets/fotosApp/loginClaro.jpeg" width="180"/> <img src="./assets/fotosApp/CadastroClaro.jpeg" width="180"/> <img src="./assets/fotosApp/InicioClaro.jpeg" width="180"/> <img src="./assets/fotosApp/BaralhoClaro.jpeg" width="186"/> <img src="./assets/fotosApp/PerfilClaro.jpeg" width="183"/> </p>
 
 ---
+
+### 🌑 Tema Escuro
+
+<p align="center"> <img src="./assets/fotosApp/loginEscuro.jpeg" width="178.1"/> <img src="./assets/fotosApp/CadastroEscuro.jpeg" width="178.1"/> <img src="./assets/fotosApp/InicioEscuro.jpeg" width="180"/> <img src="./assets/fotosApp/BaralhoEscuro.jpeg" width="180"/> <img src="./assets/fotosApp/PerfilEscuro.jpeg" width="181.5"/> </p> 
+
+---
+
+### 🃏 Telas de Jogo
+<p align="center"> <img src="./assets/fotosApp/Jogo1.jpeg" width="180"/> <img src="./assets/fotosApp/Carta.jpeg" width="179.3"/> <img src="./assets/fotosApp/Jogo2.jpeg" width="180"/> </p> 
 
